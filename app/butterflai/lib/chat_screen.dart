@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'chat_service.dart';
 
 class ChatScreen extends StatefulWidget {
+  const ChatScreen({super.key});
+
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -41,7 +43,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Chatbot")),
+      appBar: AppBar(title: const Text("Chatbot")),
       body: Column(
         children: [
           Expanded(
@@ -53,8 +55,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       ? Alignment.centerRight
                       : Alignment.centerLeft,
                   child: Container(
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     decoration: BoxDecoration(
                       color: messages[index]["sender"] == "user"
                           ? Colors.blue[100]
@@ -68,20 +70,24 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: _controller,
-                    decoration: InputDecoration(
+                    textCapitalization: TextCapitalization.sentences,
+                    autofocus: true,
+                    minLines: 1,
+                    maxLines: 5,
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: "Escribe un mensaje...",
                     ),
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.send),
+                  icon: const Icon(Icons.send),
                   onPressed: sendMessage,
                 ),
               ],
