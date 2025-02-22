@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -22,7 +23,7 @@ class ChatService {
         body: jsonEncode({
           "model": "gpt-4o-mini",
           "messages": [
-            {"role": "system", "content": "Eres un asistente útil."},
+            {"role": "system", "content": "Solo sabes de mariposas y polillas y nada más."},
             {"role": "user", "content": message}
           ],
         }),
@@ -32,7 +33,7 @@ class ChatService {
         final data = jsonDecode(utf8.decode(response.bodyBytes));
         return data["choices"][0]["message"]["content"];
       } else {
-        print(response.body);
+        debugPrint(response.body);
         return "Error en la respuesta del servidor";
       }
     } catch (e) {

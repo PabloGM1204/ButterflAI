@@ -1,6 +1,6 @@
-import 'package:butterflai/chat_service.dart';
+import 'package:butterflai/chatbot/chat_service.dart';
 import 'package:flutter/material.dart';
-import 'chat_screen.dart';
+import 'chatbot/chat_screen.dart';
 
 void main() async {
   runApp(const MyApp());
