@@ -1,12 +1,23 @@
+import 'package:butterflai/camera/camera_screen.dart';
 import 'package:butterflai/chatbot/chat_service.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'chatbot/chat_screen.dart';
 
-void main() async {
-  runApp(const MyApp());
-  ChatService.getKey();
-}
+List<CameraDescription> cameras = [];
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    cameras = await availableCameras();
+  } on CameraException catch (e) {
+    debugPrint(e.description);
+  }
+  ChatService.getKey();
+
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -42,16 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-          ],
-        ),
-      ),
+      body: CameraScreen(cameras: cameras),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

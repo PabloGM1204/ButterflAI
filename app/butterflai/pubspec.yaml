@@ -38,6 +38,9 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter_dotenv: ^5.2.1
   http: ^0.13.6
+  camera: ^0.10.5+4
+  path_provider: ^2.1.2
+  gallery_saver: ^2.3.2
 
 dev_dependencies:
   flutter_test:
