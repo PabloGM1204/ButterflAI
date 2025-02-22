@@ -116,7 +116,7 @@ class _CameraScreenState extends State<CameraScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Icon(Icons.switch_camera),
-                        Text('$_selectedCameraIndex',
+                        Text('${_selectedCameraIndex + 1}',
                             style: const TextStyle(fontSize: 12)),
                       ],
                     ),
