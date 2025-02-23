@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Detección de Objetos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2>Sube una imagen para detectar objetos</h2>
+
+  <!-- Input para subir imágenes -->
+  <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+
+  <!-- Mostrar vista previa de la imagen -->
+  <div *ngIf="imageUrl" class="image-container">
+    <img [src]="imageUrl" class="preview" />
+  </div>
+
+  <!-- Botón para enviar la imagen a la API -->
+  <ion-button expand="full" (click)="uploadImage()" [disabled]="!selectedFile">
+    Detectar Objetos
+  </ion-button>
+
+  <!-- Mostrar los resultados de la detección -->
+  <div *ngIf="detections.length > 0">
+    <h3>Resultados de la detección:</h3>
+    <ul>
+      <li *ngFor="let item of detections">
+        <strong>{{ item.class }}</strong> - Confianza: {{ item.confidence | percent }}
+      </li>
+    </ul>
+  </div>
+</ion-content>

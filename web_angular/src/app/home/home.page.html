@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Página de Inicio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2>Bienvenido a la App</h2>
+
+  <!-- Escuchar el evento (detectionsFound) que emite el componente hijo -->
+  <app-deteccion 
+    (detectionsFound)="onDetectionsReceived($event)"
+    (sendToClassifier)="onSendToClassifier($event)">
+  </app-deteccion>
+
+  <!-- Escuchar el evento (detectionsFound) que emite el componente hijo -->
+  <app-clasification 
+    *ngIf="imageToClassify" 
+    [image]="imageToClassify" 
+    [detections]="detections" 
+    (classificationFound)="onClassificationReceived($event)">
+  </app-clasification>
+
+  <!-- Chatbot (Solo visible cuando isChatOpen es true) -->
+  <div class="chat-container" *ngIf="isChatOpen">
+    <app-chatbot></app-chatbot>
+  </div>
+
+  <!-- Botón flotante para abrir/cerrar el chatbot -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="toggleChat()">
+      <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Mostrar Detecciones
+  <div *ngIf="detections.length > 0">
+    <h3>Objetos detectados:</h3>
+    <ul>
+      <li *ngFor="let item of detections">
+        <strong>{{ item.class }}</strong> - Confianza: {{ item.confidence | percent }}
+      </li>
+    </ul>
+  </div>-->
+
+  <!-- Mostrar Clasificación 
+  <div *ngIf="classificationResult">
+    <h3>Clasificación de la mariposa:</h3>
+    <p><strong>Especie:</strong> {{ classificationResult.class }}</p>
+    <p><strong>Confianza:</strong> {{ classificationResult.confidence | percent }}</p>
+  </div>-->
+</ion-content>

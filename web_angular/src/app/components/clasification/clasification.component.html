@@ -1,0 +1,17 @@
+<ion-card *ngIf="image">
+  <ion-card-header>
+    <ion-card-title>Clasificación de la Mariposa</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <img [src]="imageUrl" class="preview" />
+
+    <div *ngIf="classificationResults.length > 0">
+      <h3>Top 5 Clasificaciones:</h3>
+      <ul>
+        <li *ngFor="let result of classificationResults">
+          <strong>{{ result.class }}</strong> - Confianza: {{ result.confidence | percent }}
+        </li>
+      </ul>
+    </div>
+  </ion-card-content>
+</ion-card>

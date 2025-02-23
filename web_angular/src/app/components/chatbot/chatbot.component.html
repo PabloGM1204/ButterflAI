@@ -1,0 +1,18 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Chat con GPT</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <div class="chat-container">
+      <div *ngFor="let message of messages" [ngClass]="{'user-message': message.sender === 'user', 'bot-message': message.sender === 'bot'}">
+        {{ message.text }}
+      </div>
+
+      <div *ngIf="isLoading" class="loading">Escribiendo...</div>
+    </div>
+
+    <ion-input [(ngModel)]="userInput" placeholder="Escribe un mensaje..." class="chat-input"></ion-input>
+    <ion-button expand="full" (click)="sendMessage()">Enviar</ion-button>
+  </ion-card-content>
+</ion-card>
