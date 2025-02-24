@@ -1,18 +1,31 @@
 <ion-card>
-  <ion-card-header>
-    <ion-card-title>Chat con GPT</ion-card-title>
+  <ion-card-header style="background-color: #ff4444; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+    <ion-card-title style="text-align: center; font-weight: bold;">Chat con ButterflAI</ion-card-title>
   </ion-card-header>
 
   <ion-card-content>
     <div class="chat-container">
-      <div *ngFor="let message of messages" [ngClass]="{'user-message': message.sender === 'user', 'bot-message': message.sender === 'bot'}">
-        {{ message.text }}
+      <div *ngFor="let message of messages" class="message" [ngClass]="{'user-message': message.sender === 'user', 'bot-message': message.sender === 'bot'}">
+        <!-- Icono del Bot -->
+        <ion-icon *ngIf="message.sender === 'bot'" name="cube-outline" class="chat-icon bot-icon"></ion-icon>
+
+        <!-- Texto del Mensaje -->
+        <span class="message-text">{{ message.text }}</span>
+
+        <!-- Icono del Usuario -->
+        <ion-icon *ngIf="message.sender === 'user'" name="person-circle-outline" class="chat-icon user-icon"></ion-icon>
       </div>
 
       <div *ngIf="isLoading" class="loading">Escribiendo...</div>
     </div>
 
-    <ion-input [(ngModel)]="userInput" placeholder="Escribe un mensaje..." class="chat-input"></ion-input>
-    <ion-button expand="full" (click)="sendMessage()">Enviar</ion-button>
+    <!-- Input y botón en la misma línea -->
+    <div class="input-container" style="display: flex; align-items: center;">
+      <ion-input [(ngModel)]="userInput" placeholder="Escribe un mensaje..."
+                 class="chat-input" (keyup.enter)="sendMessage()" style="flex: 1;"></ion-input>
+      <ion-button (click)="sendMessage()" fill="clear">
+        <ion-icon name="send-outline"></ion-icon>
+      </ion-button>
+    </div>
   </ion-card-content>
 </ion-card>

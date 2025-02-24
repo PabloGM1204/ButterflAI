@@ -39,7 +39,7 @@ export class ChatbotComponent {
   sendWelcomeMessage() {
     const welcomeMessage = {
       sender: 'bot',
-      text: "Hola, soy ButterflAI 🦋, tu asistente sobre mariposas favorito. Pregunta lo que quieras sobre estos increíbles insectos."
+      text: "Hola, soy ButterflAI 🦋, tu asistente sobre mariposas favorito."
     };
     this.messages.push(welcomeMessage);
     this.saveMessages(); // ✅ Guardar mensaje de bienvenida en el historial
