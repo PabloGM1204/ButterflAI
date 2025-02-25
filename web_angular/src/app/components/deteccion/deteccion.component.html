@@ -1,32 +1,37 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Detección de Objetos</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="ion-padding">
+<ion-content class="ion-padding detection-container">
   <h2>Sube una imagen para detectar objetos</h2>
 
   <!-- Input para subir imágenes -->
-  <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+  <input type="file" (change)="onFileSelected($event)" accept="image/*" class="upload-input" />
 
-  <!-- Mostrar vista previa de la imagen -->
-  <div *ngIf="imageUrl" class="image-container">
-    <img [src]="imageUrl" class="preview" />
-  </div>
+  <div class="image-row">
+    <!-- Imagen seleccionada por el usuario -->
+    <div class="image-container">
+      <h3>Imagen Original</h3>
+      <img *ngIf="imageUrl" [src]="imageUrl" class="preview" alt="Imagen original" />
+    </div>
 
-  <!-- Botón para enviar la imagen a la API -->
-  <ion-button expand="full" (click)="uploadImage()" [disabled]="!selectedFile">
-    Detectar Objetos
-  </ion-button>
+    <!-- Botón de detección y resultados -->
+    <div class="center-container">
+      <ion-button expand="block" color="primary" (click)="uploadImage()" [disabled]="!selectedFile">
+        Detectar Objetos
+      </ion-button>
 
-  <!-- Mostrar los resultados de la detección -->
-  <div *ngIf="detections.length > 0">
-    <h3>Resultados de la detección:</h3>
-    <ul>
-      <li *ngFor="let item of detections">
-        <strong>{{ item.class }}</strong> - Confianza: {{ item.confidence | percent }}
-      </li>
-    </ul>
+      <!-- Mostrar los resultados de la detección -->
+      <div *ngIf="detections.length > 0" class="results-container">
+        <h3>Resultados de la detección:</h3>
+        <ul>
+          <li *ngFor="let item of detections">
+            <strong>{{ item.class }}</strong> - Confianza: {{ item.confidence | percent }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Imagen con detección -->
+    <div class="image-container">
+      <h3>Detección</h3>
+      <img *ngIf="detectionImageUrl" [src]="detectionImageUrl" class="preview" alt="Resultado de detección" />
+    </div>
   </div>
 </ion-content>
