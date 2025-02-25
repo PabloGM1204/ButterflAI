@@ -19,12 +19,11 @@
 
       <!-- Mostrar los resultados de la detección -->
       <div *ngIf="detections.length > 0" class="results-container">
-        <h3>Resultados de la detección:</h3>
-        <ul>
-          <li *ngFor="let item of detections">
-            <strong>{{ item.class }}</strong> - Confianza: {{ item.confidence | percent }}
-          </li>
-        </ul>
+        <h3>Confianza</h3>
+        <li *ngFor="let item of detections">
+          <strong>{{ item.confidence | percent }}</strong>
+        </li>
+
       </div>
     </div>
 

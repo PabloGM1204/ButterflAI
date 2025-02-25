@@ -1,7 +1,45 @@
-.preview {
-    max-width: 100%;
-    height: auto;
+ion-content {
+    --background: transparent;
+  //height: 100vh; /* Para asegurar que ocupe toda la pantalla */
+  }
+
+.classification-container {
+    text-align: center;
+    color: #333;
+  }
+  
+  .image-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
+  }
+  
+  .empty-container {
+    width: 45%;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 1rem;
     border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-}
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .center-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 45%;
+  }
+  
+  ion-card {
+    margin: 1rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
+  
+  ion-card h3 {
+    color: #0054a6;
+  }
   

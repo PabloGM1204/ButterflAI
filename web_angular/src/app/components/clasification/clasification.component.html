@@ -1,14 +1,27 @@
-<ion-card *ngIf="image">
-  <ion-card-content>
-    <img [src]="imageUrl" class="preview" />
-
-    <div *ngIf="classificationResults.length > 0">
-      <h3>Top 5 Clasificaciones:</h3>
-      <ul>
-        <li *ngFor="let result of classificationResults">
-          <strong>{{ result.class }}</strong> - Confianza: {{ result.confidence | percent }}
-        </li>
-      </ul>
+<ion-content class="ion-padding classification-container">
+  <div class="image-row">
+    <!-- Espacio vacío a la izquierda -->
+    <div class="empty-container">
+      <p>Espacio vacío</p>
     </div>
-  </ion-card-content>
-</ion-card>
+
+    <!-- Resultados de clasificación -->
+    <div class="center-container">
+      <ion-card *ngIf="classificationResults.length > 0">
+        <ion-card-content>
+          <h3>Top 5 Clasificaciones:</h3>
+          <ul>
+            <li *ngFor="let result of classificationResults">
+              <strong>{{ result.class }}</strong> - Confianza: {{ result.confidence | percent }}
+            </li>
+          </ul>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Espacio vacío a la derecha -->
+    <div class="empty-container">
+      <p>Espacio vacío</p>
+    </div>
+  </div>
+</ion-content>
