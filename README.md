@@ -28,6 +28,8 @@ Nostros dos siempre hemos querido hacer una aplicación de detección con uso a 
 
 **ButterlfAI** es una aplicación de detección y clasificación de mariposas a tiempo real con la capacidad de detectar hasta 100 clases de mariposas distintas, la hemos desarrollado en dos vertiente una en pagina web y otra para dispositivos moviles. Las dos hacen uso de un chatbot especializado en mariposas para en el caso de tener alguna duda poder preguntarle.
 
+* Para el diseño tanto de la aplicación movil como de la página web hemos usado figma: [Figma Web](https://www.figma.com/design/ppYnvwKn1cuR7QMSj7lIhE/Untitled?node-id=0-1&t=sqGsiv9wRIYfBdJS-1), [Figma App](https://www.figma.com/design/yZJnqPjqBbwB1zLa1cWf5o/ButterflAI_App?t=sqGsiv9wRIYfBdJS-1)
+
 Estas son las tecnologías que hemos usado para desarrollar este proyecto:
 ![usos](imgs_readme/usos.png)
 
@@ -80,6 +82,8 @@ Para tener una copia de los dataset en la nube por si se nos pierde y ademas de 
 
 ## Limpieza de datos
 
-Para la limpieza de los datos de los datasets usamos un 
+Para la limpieza de los datos de los datasets hemos divido el proceso en varias partes para que todo sea mas claro y sencillo de explicar y entender.
+
+
 
 ##
