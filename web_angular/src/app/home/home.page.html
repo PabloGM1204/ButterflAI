@@ -31,20 +31,31 @@
     </ion-fab-button>
   </ion-fab>
 
-  <!-- Mostrar Detecciones
-  <div *ngIf="detections.length > 0">
-    <h3>Objetos detectados:</h3>
-    <ul>
-      <li *ngFor="let item of detections">
-        <strong>{{ item.class }}</strong> - Confianza: {{ item.confidence | percent }}
-      </li>
-    </ul>
-  </div>-->
-
-  <!-- Mostrar Clasificación 
-  <div *ngIf="classificationResult">
-    <h3>Clasificación de la mariposa:</h3>
-    <p><strong>Especie:</strong> {{ classificationResult.class }}</p>
-    <p><strong>Confianza:</strong> {{ classificationResult.confidence | percent }}</p>
-  </div>-->
+   <!-- Sección de imágenes de los creadores -->
+   <div class="creators-container">
+    <div class="creator">
+      <img src="assets/images/Pablo.jpg" alt="Foto de Pablo">
+      <p>Pablo</p>
+      <div class="social-icons">
+        <a href="https://github.com/PabloGM1204" target="_blank">
+          <ion-icon name="logo-github"></ion-icon>
+        </a>
+        <a href="https://www.linkedin.com/in/pablo-garc%C3%ADa-mu%C3%B1oz-a9b2402a9/" target="_blank">
+          <ion-icon name="logo-linkedin"></ion-icon>
+        </a>
+      </div>
+    </div>
+    <div class="creator">
+      <img src="assets/images/Jairo.jpg" alt="Foto de Jairo">
+      <p>Jairo</p>
+      <div class="social-icons">
+        <a href="https://github.com/jairopo" target="_blank">
+          <ion-icon name="logo-github"></ion-icon>
+        </a>
+        <a href="https://www.linkedin.com/in/jairo-andrades-bueno/" target="_blank">
+          <ion-icon name="logo-linkedin"></ion-icon>
+        </a>
+      </div>
+    </div>
+  </div>
 </ion-content>

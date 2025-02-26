@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-chatbot',
@@ -17,7 +18,7 @@ export class ChatbotComponent {
   isLoading = false; // ✅ Para mostrar "Cargando..." mientras responde el bot
 
   apiUrl = 'https://api.openai.com/v1/chat/completions'; // ✅ Endpoint de OpenAI
-  apiKey = ''; // 🔹 REEMPLAZA con tu clave de OpenAI
+  apiKey = environment.apiKey; // 🔹 REEMPLAZA con tu clave de OpenAI
 
   constructor(private http: HttpClient) {
     this.loadMessages(); // ✅ Cargar mensajes guardados al iniciar
