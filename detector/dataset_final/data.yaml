@@ -1,0 +1,5 @@
+path: D:/TFM/Codigo/modificado_copy
+train: ../train/images
+val: ../valid/images
+nc: 1
+names: ['butterfly']
