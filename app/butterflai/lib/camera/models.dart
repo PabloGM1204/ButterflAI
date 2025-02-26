@@ -16,7 +16,7 @@ class ButterflyModels {
     _detectorInterpreter =
         await tfl.Interpreter.fromAsset('assets/models/detector.tflite');
     _classifierInterpreter =
-        await tfl.Interpreter.fromAsset('assets/models/clasificador_2.tflite');
+        await tfl.Interpreter.fromAsset('assets/models/clasificador.tflite');
     _modelsLoaded = true;
   }
 
