@@ -97,9 +97,8 @@ test       500
 valid      500
 Name: count, dtype: int64
 ```
-* Cantidad de datos por cada tipo de mariposa que hay en el dataset:
+* Cantidad de datos por cada tipo de mariposa que hay en el conjunto de entrenamiento:
 ```
-# Muestra la cantidad de datos por mariposa de los train
 df[df['data set'] == 'train']['labels'].value_counts()
 --------------------------------------------------------
 labels
@@ -116,21 +115,20 @@ WOOD SATYR             102
 SIXSPOT BURNET MOTH    100
 Name: count, Length: 100, dtype: int64
 ```
-Vemos que el mínimo de imagnes es de **100** mientras que el máximo de imagenes es **187**.
+Vemos que el mínimo de imágenes es de **100** mientras que el máximo es **187**.
 
-* Vemos 5 imágenes de prueba
+Ahora, sacamos el mínimo y el máximo número de imágenes por especie de los conjuntos de validación y de prueba:
 ```
-# Muestra 5 imágenes aleatorias de prueba
-df_sample = df[['image', 'labels']].sample(5)
-plt.figure(figsize=(15, 15))
-for i in range(5):
-    plt.subplot(1, 5, i+1)
-    plt.imshow(df_sample.iloc[i, 0])
-    plt.title(df_sample.iloc[i, 1])
-    plt.axis('off')
-plt.show()
+df[df['data set'] == 'test']['labels'].value_counts().min(), df[df['data set'] == 'test']['labels'].value_counts().max()
+--------------------------------------------------------
+(5, 5)
 ```
-![ejemplos_imgs](imgs_readme/ejemplo_imgs.png)
+```
+df[df['data set'] == 'valid']['labels'].value_counts().min(), df[df['data set'] == 'valid']['labels'].value_counts().max()
+--------------------------------------------------------
+(5, 5)
+```
+Con esto confirmamos que hay 5 imágenes por cada especie tanto en el conjunto de validación como en el de prueba.
 
 ### 3.2 Eliminación de los nulos
 
@@ -184,8 +182,56 @@ if imagenes_invalidas:
 
 print("Verificación completada.")
 ```
+### 3.3 Carga de imágenes
+* Creamos una nueva columna `image` en el dataset para guardar todas las imágenes como un array y las normalizamos entre 0 y 1, con un size **(224, 224)**.
+```
+df['image'] = df['filepaths'].apply(lambda x: img_to_array(load_img(f"../{x}", target_size=(224, 224))) / 255)
+```
+* Vemos 5 imágenes de prueba
+```
+df_sample = df[['image', 'labels']].sample(5)
+plt.figure(figsize=(15, 15))
+for i in range(5):
+    plt.subplot(1, 5, i+1)
+    plt.imshow(df_sample.iloc[i, 0])
+    plt.title(df_sample.iloc[i, 1])
+    plt.axis('off')
+plt.show()
+```
+![ejemplos_imgs](imgs_readme/ejemplo_imgs.png)
 
-## 3.3 Descripción de los datos
+* Mostramos las 5 primeras filas
+```
+df.head()
+```
+| class id | filepaths| labels | data set | image |
+|----------|--------------------------|--------|----------|--------|
+| 0        | train/ADONIS/001.jpg     | ADONIS | train    | [[[0.0, 0.023529412, 0.019607844], [0.0, 0.050... |
+| 0        | train/ADONIS/002.jpg     | ADONIS | train    | [[[0.33333334, 0.29803923, 0.12941177], [0.313... |
+| 0        | train/ADONIS/003.jpg     | ADONIS | train    | [[[0.50980395, 0.48235294, 0.3019608], [0.5098... |
+| 0        | train/ADONIS/004.jpg     | ADONIS | train    | [[[0.54509807, 0.5254902, 0.29803923], [0.5450... |
+| 0        | train/ADONIS/005.jpg     | ADONIS | train    | [[[0.61960787, 0.654902, 0.2901961], [0.619607... |
+
+### 3.4 Creación de diccionario de labels
+* Como podemos ver, tenemos una columna `class id` y otra `labels`. Para eliminar esta última, creamos un diccionario que sea `{id: label}` que nos permite obtener el nombre meditante el número de la clase. 
+```
+dict_name = dict(zip( df['class id'], df['labels']))
+dict_name
+--------------------------------------------------------
+{0: 'ADONIS',
+ 1: 'AFRICAN GIANT SWALLOWTAIL',
+ 2: 'AMERICAN SNOOT',
+ 3: 'AN 88',
+ 4: 'APPOLLO',
+ ...
+ 95: 'VICEROY',
+ 96: 'WHITE LINED SPHINX MOTH',
+ 97: 'WOOD SATYR',
+ 98: 'YELLOW SWALLOW TAIL',
+ 99: 'ZEBRA LONG WING'}
+```
+
+### 3.5 Descripción de los datos
 
 * Como hemos comentado antes los datos importantes de los datasets son las imágenes pero para el caso del entrenamiento del modelo de **detección** necesitabamos los datos en formato **YOLO** que son las imagenes con las *labels* (etiquetas con la información de cada imagen como las cordenadas de la caja que delimita la mariposa). Por eso usamos **Roboflow** ya que no era eficiente hacer a mas de 1000 imagenes la caja delimitadora a mano y esta página con el plan gratuito nos permitio a 1000 imagenes y usando el modelo de deteccion de **Dino** poder crear un dataset con el formato **YOLO** que es el que necesitabamos.
     * [Link a nuestro dataset subido a **Roboflow**](https://universe.roboflow.com/butterflai/butterflies-detection-sfxwl/dataset/5)
