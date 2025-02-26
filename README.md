@@ -13,8 +13,8 @@ Nostros dos siempre hemos querido hacer una aplicación de detección con uso a 
 2. Obtención de datos
 3. Limpieza de datos
 
-    3.1 Eliminación de nulos
-    3.2 Comprobación de los datos
+    3.1 Comprobación de los datos
+    3.2 Eliminación de nulos
     3.3 Descripción de los datos
 
 4. Exploración y visualización de los datos
@@ -82,8 +82,126 @@ Para tener una copia de los dataset en la nube por si se nos pierde y ademas de 
 
 ## Limpieza de datos
 
-Para la limpieza de los datos de los datasets hemos divido el proceso en varias partes para que todo sea mas claro y sencillo de explicar y entender.
+Para la limpieza de los datos de los datasets hemos divido el proceso en varias partes para que todo sea mas claro y sencillo de explicar y entender ademas de que estan hechos en cuadernos *jupyter*:
+
+### 3.1 Comprobación de los datos
+
+* Nos centramos en el dataset de **butterfly-images40-species** ya que es el que mas imagenes y especies tiene:
+```
+# Muestra la cantidad de datos para train, valid y test
+df['data set'].value_counts()
+-------------------------------------------------------
+data set
+train    12594
+test       500
+valid      500
+Name: count, dtype: int64
+```
+* Cantidad de datos por cada tipo de mariposa que hay en el dataset:
+```
+# Muestra la cantidad de datos por mariposa de los train
+df[df['data set'] == 'train']['labels'].value_counts()
+--------------------------------------------------------
+labels
+MOURNING CLOAK         187
+GREEN HAIRSTREAK       176
+BROWN ARGUS            169
+BROOKES BIRDWING       165
+SLEEPY ORANGE          152
+                      ... 
+GOLD BANDED            104
+CRIMSON PATCH          103
+MALACHITE              103
+WOOD SATYR             102
+SIXSPOT BURNET MOTH    100
+Name: count, Length: 100, dtype: int64
+```
+Vemos que el mínimo de imagnes es de **100** mientras que el máximo de imagenes es **187**.
+
+* Vemos 5 imágenes de prueba
+```
+# Muestra 5 imágenes aleatorias de prueba
+df_sample = df[['image', 'labels']].sample(5)
+plt.figure(figsize=(15, 15))
+for i in range(5):
+    plt.subplot(1, 5, i+1)
+    plt.imshow(df_sample.iloc[i, 0])
+    plt.title(df_sample.iloc[i, 1])
+    plt.axis('off')
+plt.show()
+```
+![ejemplos_imgs](imgs_readme/ejemplo_imgs.png)
+
+### 3.2 Eliminación de los nulos
+
+* En general las imagenes al estar en datasets de Kaggle suelen venir bien formateadas y no suelen ser nulas pero aun así hicimos esta función para comprobar los valores:
+
+```
+def verificar_imagenes(directorio):
+    """
+    Verifica que las imágenes en un directorio sean válidas.
+    
+    Parámetros:
+        directorio (str): Ruta del directorio donde están las imágenes.
+        
+    Retorna:
+        imágenes_corruptas (list): Lista con las rutas de las imágenes corruptas o no válidas.
+    """
+    imagenes_corruptas = []
+    formatos_validos = {".jpg", ".jpeg", ".png", ".bmp", ".tiff"}
+
+    for archivo in tqdm(os.listdir(directorio), desc="Verificando imágenes"):
+        ruta_imagen = os.path.join(directorio, archivo)
+
+        # Verificar que sea un archivo de imagen válido por extensión
+        if not any(archivo.lower().endswith(ext) for ext in formatos_validos):
+            print(f"Archivo no válido (extensión incorrecta): {ruta_imagen}")
+            imagenes_corruptas.append(ruta_imagen)
+            continue
+
+        # Intentar abrir la imagen con OpenCV
+        try:
+            imagen = cv2.imread(ruta_imagen)
+            if imagen is None or imagen.size == 0:
+                print(f"Imagen corrupta o vacía: {ruta_imagen}")
+                imagenes_corruptas.append(ruta_imagen)
+        except Exception as e:
+            print(f"Error al leer la imagen {ruta_imagen}: {e}")
+            imagenes_corruptas.append(ruta_imagen)
+
+    print(f"Total de imágenes corruptas/no válidas encontradas: {len(imagenes_corruptas)}")
+    return imagenes_corruptas
+
+# Uso del código
+directorio_imagenes = "ruta/a/tu/dataset"
+imagenes_invalidas = verificar_imagenes(directorio_imagenes)
+
+# para eliminar las imagenes corruptas
+if imagenes_invalidas:
+    for img in imagenes_invalidas:
+        os.remove(img)
+        print(f"Eliminada imagen corrupta: {img}")
+
+print("Verificación completada.")
+```
+
+## 3.3 Descripción de los datos
+
+* Como hemos comentado antes los datos importantes de los datasets son las imágenes pero para el caso del entrenamiento del modelo de **detección** necesitabamos los datos en formato **YOLO** que son las imagenes con las *labels* (etiquetas con la información de cada imagen como las cordenadas de la caja que delimita la mariposa). Por eso usamos **Roboflow** ya que no era eficiente hacer a mas de 1000 imagenes la caja delimitadora a mano y esta página con el plan gratuito nos permitio a 1000 imagenes y usando el modelo de deteccion de **Dino** poder crear un dataset con el formato **YOLO** que es el que necesitabamos.
+    * [Link a nuestro dataset subido a **Roboflow**](https://universe.roboflow.com/butterflai/butterflies-detection-sfxwl/dataset/5)
+
+Ejemplo de un label creado por **Dino**:
+
+Cada label tien estos 5 datos: **0** se refiere a la clase que es, en este caso como todas son mariposas le pone clase **0**, los cuatro siguientes valores son los puntos de *xmin, xmax, ymin, ymax* que sirven para saber donde esta la caja delimitadora de la detección.
+
+```0 0.5 0.48671875 0.92890625 0.9015625```
+
+<img src="detector/dataset_final/train/images/image_1_jpg.rf.ddf7ec584529709fd345025297a3e8c3.jpg" alt="alt text" width="300"/>
 
 
+* Tambien para el modelo de deteccion necesitabamos unas 200 imagenes de objetos aleatorios para que el modelo supiera diferencia entre lo que es una mariposa y no, estos datos tambien son imagenes solo que no tienen un label que les corresponda ya que estas fotos no tiene una mariposa por lo que no tiene una caja delimitadora para la mariposa.
 
-##
+<img src="detector/dataset_final/train/images/resized_image_132.jpg" alt="alt text" width="300"/>
+
+
+## Exploración y visualización de los datos
