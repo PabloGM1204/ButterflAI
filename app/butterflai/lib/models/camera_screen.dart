@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'models.dart';
+import 'models_management.dart';
 
 class CameraScreen extends StatefulWidget {
   final List<CameraDescription> cameras;

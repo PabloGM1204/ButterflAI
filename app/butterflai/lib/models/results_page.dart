@@ -4,7 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
-import 'camera/models.dart';
+import 'models_management.dart';
 
 class ResultScreen extends StatefulWidget {
   final File image;

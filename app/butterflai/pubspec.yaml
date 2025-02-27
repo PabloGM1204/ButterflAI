@@ -73,7 +73,7 @@ flutter:
     - assets/models/labels_clasificador.txt
     - assets/images/fondo_chat.png
     - assets/images/fondo_inicio.jpg
-    - assets/images/fondo_prueba.jpg
+    - assets/images/fondo_chat.png
     - assets/images/chatbot.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'camera/models.dart';
+import 'models/models_management.dart';
 import 'chatbot/chat_service.dart';
 import 'home_screen.dart';
 

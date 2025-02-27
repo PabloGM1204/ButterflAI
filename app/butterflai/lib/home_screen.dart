@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'camera/camera_screen.dart';
+import 'models/camera_screen.dart';
 import 'chatbot/chat_screen.dart';
-import 'results_page.dart';
+import 'models/results_page.dart';
 
 /// Pantalla principal de la aplicación
 class HomeScreen extends StatefulWidget {
