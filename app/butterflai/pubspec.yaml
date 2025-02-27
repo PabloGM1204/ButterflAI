@@ -69,8 +69,12 @@ flutter:
   assets:
     - assets/env/.env
     - assets/models/detector.tflite
-    - assets/models/clasificador_2.tflite
+    - assets/models/clasificador.tflite
     - assets/models/labels_clasificador.txt
+    - assets/images/fondo_chat.png
+    - assets/images/fondo_inicio.jpg
+    - assets/images/fondo_chat.png
+    - assets/images/chatbot.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
