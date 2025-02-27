@@ -15,7 +15,9 @@ Nostros dos siempre hemos querido hacer una aplicación de detección con uso a 
 
     3.1 Comprobación de los datos
     3.2 Eliminación de nulos
-    3.3 Descripción de los datos
+    3.3 Carga de imágenes
+    3.4 Creación de diccionario de labels
+    3.5 Descripción de los datos
 
 4. Exploración y visualización de los datos
 5. Preparación de los datos para los algoritmos de *Machine Learning*
@@ -250,4 +252,310 @@ Cada label tien estos 5 datos: **0** se refiere a la clase que es, en este caso 
 <img src="detector/dataset_final/train/images/resized_image_132.jpg" alt="alt text" width="300"/>
 
 
-## Exploración y visualización de los datos
+## 4. Exploración y visualización de los datos
+
+## 5. Preparación de los datos para los algoritmos de *Machine Learning*
+
+### 5.1 Modelo de Detección
+
+### 5.2 Modelo de Clasificación
+
+Anteriormente, dejamos el dataset con todas las columnas, además de una nueva llamada `image`. Sin embargo, ya no nos hacen falta la mayoría de ellas.
+
+Contamos con `class id`, `filepaths`, `labels`, `data set` e `image`. De estas, nos quedaremos con `class id` e `image`.
+
+La ruta del archivo ya no es necesaria, porque contamos con la propia imagen, y el label de la clase lo tenemos recogido en un diccionario `{id: label}`, por lo que `filepaths` y `labels` ya no nos sirven.
+
+Por otro lado, queda `data set`, que nos indica para qué conjunto está destinada cada imagen. Por ello, vamos a separar el dataset en los tres grupos:
+* Train
+* Valid
+* Test
+
+Para agilizar el proceso, únicamente cogemos las dos columnas mencionadas (class id e image), desaciéndonos así de las demás:
+```
+train_df = df[df['data set'] == 'train'][['class id', 'image']]
+```
+```
+valid_df = df[df['data set'] == 'valid'][['class id', 'image']]
+```
+```
+test_df = df[df['data set'] == 'test'][['class id', 'image']]
+```
+
+Antes de mostrar el contenido de cada conjunto, vamos a hacer una pequeña modificación en ellos. Primero, se va a hacer un `sample(1)`, para poder mezclarlo entero. Después, reseteamos los índices, pues al partirlos se han quedado con el que tenían en el dataset original.
+
+```
+train_df = train_df.sample(frac=1).reset_index(drop=True)
+```
+```
+valid_df = valid_df.sample(frac=1).reset_index(drop=True)
+```
+```
+test_df = test_df.sample(frac=1).reset_index(drop=True)
+```
+
+Ahora, visualizamos el contenido y verificamos que tenga la estructura que buscamos.
+```
+train_df
+```
+| class id | image |
+|----------|--------|
+|26|[[[0.3372549, 0.27450982, 0.14117648], [0.3294...|
+|81|[[[0.8156863, 0.54901963, 0.29411766], [0.8470...|
+|4|[[[0.16470589, 0.15686275, 0.105882354], [0.16...|
+
+Pasamos a separar cada grupo en dos. En primer lugar, el conjunto `X`, con el **array de cada imagen** y, en segundo lugar, el conjunto `y`, que contendrá los **índices de cada clase**.
+
+```
+X_train, y_train = train_df['image'], train_df['class id']
+```
+```
+X_valid, y_valid = valid_df['image'], valid_df['class id']
+```
+```
+X_test, y_test = test_df['image'], test_df['class id']
+```
+
+Ya tenemos los conjuntos `y` con los índices, pero necesitamos que estén en one-hot para poder ver la importancia que se le ha dado a cada clase.
+```
+# Saca el número de clases
+num_classes = y_train.nunique()
+# Convierte en one-hot
+y_train = tf.keras.utils.to_categorical(y_train, num_classes=num_classes)
+```
+```
+y_valid = tf.keras.utils.to_categorical(y_valid, num_classes=num_classes)
+```
+```
+y_test = tf.keras.utils.to_categorical(y_test, num_classes=num_classes)
+```
+De esta forma, pasarán a tener la siguiente estructura:
+```
+y_train
+--------------------------------------------------------
+array([[0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.],
+       ...,
+       [0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.]], dtype=float32)
+```
+
+Sacamos el tipo de cada conjunto, para verificar que sean del tipo esperado.
+```
+X_train.dtype, y_train.dtype, X_valid.dtype, y_valid.dtype, X_test.dtype, y_test.dtype
+--------------------------------------------------------
+(dtype('O'),
+ dtype('float32'),
+ dtype('O'),
+ dtype('float32'),
+ dtype('O'),
+ dtype('float32'))
+```
+No obstante, los conjuntos `X` aparecen de tipo *O*. Por ello, realizamos la conversión para que sean *float32* igual que los `y`.
+```
+X_train = np.array(X_train.tolist())
+X_valid = np.array(X_valid.tolist())
+X_test = np.array(X_test.tolist())
+```
+Si volvemos a visualizar los tipos, aparecerán todos como *float32*, por lo que ya tenemos los datos listos para el modelo.
+```
+X_train.dtype, y_train.dtype, X_valid.dtype, y_valid.dtype, X_test.dtype, y_test.dtype
+--------------------------------------------------------
+(dtype('float32'),
+ dtype('float32'),
+ dtype('float32'),
+ dtype('float32'),
+ dtype('float32'),
+ dtype('float32'))
+```
+
+## 6. Entrenamiento del modelo y comprobación del rendimiento
+
+### 6.1 Modelo de Detección
+
+### 6.2 Modelo de Clasificación
+
+<h4 style="text-decoration: underline;">Estructura del modelo</h4>
+
+Para explicar el modelo que hemos creado, vamos a verlo por partes.
+
+1. **Tamaño de entrada**: especificamos las dimensiones del array de entrada, es decir, de una foto de **224x224 a color**.
+```
+Input((224, 224, 3)),
+```
+2. **Capa de entrada**: definimos la primera capa convolucional con **64 filtros de (3x3)** que usará la función de **activación relu** y una **regularización L2** aplicada a los pesos de la capa para prevenir sobreajuste.
+Después, pasará por una capa para **normalizar** la salida y, por último, por una capa de **pooling** (2x2).
+```
+Conv2D(64, (3, 3), activation='relu', kernel_regularizer=regularizers.l2(0.00005)),
+BatchNormalization(),
+MaxPooling2D(2, 2),
+```
+3. **Capas ocultas**: en total encontramos cinco capas ocultas, con diferente número de filtros que variarán entre 128 y 512. A partir de la segunda capa, encontramos un **dropout** después del **pooling**, con un valor distinto en cada una, para evitar el sobreajuste del modelo.
+```
+Conv2D(256, (3, 3), activation='relu', kernel_regularizer=regularizers.l2(0.00005)),
+BatchNormalization(),
+MaxPooling2D(2, 2),
+Dropout(0.2),
+```
+4. **Capa de salida**: la última capa nos daría el resultado del modelo, es decir, la confianza que se le ha dado a cada una de las 100 clases, para ello usa la función softmax.
+```
+Dense(100, activation='softmax')
+``` 
+Por tanto, el modelo en su totalidad se vería de la siguiente manera:
+```
+model = keras.Sequential([
+    # Tamaño de entrada
+    Input((224, 224, 3)),
+    # Primera capa convolucional
+    Conv2D(64, (3, 3), activation='relu', kernel_regularizer=regularizers.l2(0.00005)),
+    BatchNormalization(),
+    MaxPooling2D(2, 2),
+    
+    # Segunda capa convolucional
+    Conv2D(128, (3, 3), activation='relu', kernel_regularizer=regularizers.l2(0.00005)),
+    BatchNormalization(),
+    MaxPooling2D(2, 2),
+    
+    # Tercera capa convolucional
+    Conv2D(256, (3, 3), activation='relu', kernel_regularizer=regularizers.l2(0.00005)),
+    BatchNormalization(),
+    MaxPooling2D(2, 2),
+    Dropout(0.2),
+    
+    # Cuarta capa convolucional
+    Conv2D(512, (3, 3), activation='relu', kernel_regularizer=regularizers.l2(0.00005)),
+    BatchNormalization(),
+    MaxPooling2D(2, 2),
+    Dropout(0.3),
+    
+    # Quinta capa convolucional
+    Flatten(),
+    Dense(512, activation='relu', kernel_regularizer=regularizers.l2(0.00005)),
+    BatchNormalization(),
+    Dropout(0.4),
+    
+    # Sexta capa convolucional
+    Dense(256, activation='relu', kernel_regularizer=regularizers.l2(0.00005)),
+    BatchNormalization(),
+    Dropout(0.3),
+    
+    # Capa de salida
+    Dense(100, activation='softmax')
+])
+```
+**Compilamos** el modelo usando el **optimizador** *Adam* con un **lr de 0.001**, la **función de pérdida** **categorical_crossentropy** y la **precisión** como **métrica**.
+```
+model.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=0.001), 
+    loss='categorical_crossentropy',
+    metrics=['accuracy']
+)
+```
+
+Antes de entrenar el modelo, aplicamos **Data Augmentation** para intentar mejorar la generalización de las imágenes.
+```
+datagen = ImageDataGenerator(
+    rotation_range=30, # Rotación aleatoria en el rango de 30 grados
+    width_shift_range=0.2, # Traslación horizontal aleatoria
+    height_shift_range=0.2, # Traslación vertical aleatoria
+    shear_range=0.2, # Cizallamiento aleatorio (transformación de corte)
+    zoom_range=0.2, # Zoom aleatorio in o out de 20%
+    horizontal_flip=True,  # Volteo horizontal aleatorio
+    fill_mode='nearest', # Rellena los píxeles que faltan con los valores más cercanos
+)
+```
+Ajusta el generador a los datos de entrenamiento.
+```
+datagen.fit(X_train)
+```
+<h4 style="text-decoration: underline;">Entrenamiento del modelo</h4>
+
+Para hacer un entrenamiento más eficiente, aplicamos los siguientes callbacks:
+
+1. **Early stopping**: observa el **val_loss** para deterner el modelo si no mejora durante **7 épocas**, quedándose con los mejores pesos.
+```
+early_stopping = EarlyStopping(
+    monitor='val_loss',
+    patience=7,
+    restore_best_weights=True
+)
+```
+2. **Reduce LR**: observa el **val_loss** para **reducir** la tasa de aprendizaje **a la mitad** si no mejora durante **3 épocas**, con un **límite mínimo de 1e-6**.
+```
+reduce_lr = ReduceLROnPlateau(
+    monitor='val_loss',
+    factor=0.5,
+    patience=3,
+    min_lr=1e-6
+)
+```
+
+Ahora sí, entrenamos el modelo. Para ello, usamos el **datagen** con los datos de entrenamiento y un **batch_size de 64**. Además, especificamos que dure **100 épocas**, que use un **batch_size de 64**, agregamos los **datos de validación** y, para finalizar, los **callbacks**. Vamos a guardar el entrenamiento en la variable `history` para más adelante visualizarlo en un gráfico.
+```
+history = model.fit(
+    datagen.flow(X_train, y_train, batch_size=64),
+    epochs=100, 
+    batch_size=64,
+    validation_data=(X_valid, y_valid),
+    callbacks=[early_stopping, reduce_lr]
+)
+```
+El entrenamiento ha finalizado en la época 82, con una precisión en los datos de entrenamiento y validación de 0.9621 y 0.9420, respectivamente.
+
+Si visualizamos las gráficas de **precisión** y de **pérdida** mediante la variable `history` podemos ver que la **evolución** de las dos líneas es muy **parecida** en ambos casos, manteniéndose muy cercanas en todo momento.
+
+![Gráfico de entrenamiento](imgs_readme/history_plot.png)
+
+<h4 style="text-decoration: underline;">Prueba del modelo</h4>
+
+Hacemos una **evaluación** del modelo con los datos de **prueba** y obtenemos una **precisión** de **0.9620**.
+```
+test_loss, test_acc = model.evaluate(X_test, y_test)
+--------------------------------------------------------
+16/16 [==============================] - 1s 36ms/step - loss: 0.6589 - accuracy: 0.9620
+```
+
+Sacamos las clases **reales** y las **predichas** y mostramos los resultados en una **matriz de confusión**.
+```
+# Saca la precisión en los datos de prueba
+predictions = model.predict(X_test)
+# Saca las clases predichas y las verdaderas
+predicted_classes = np.argmax(predictions, axis=1)
+true_classes = np.argmax(y_test, axis=1) 
+```
+<img src="imgs_readme/confusion_matrix.png" alt="alt text" width="300"/>
+
+Como se puede apreciar, casi todos los **valores** se encuentran en la **diagonal de la matriz**, indicando que se han acertado casi todas las fotos.
+
+Realizamos un recuento y obtenemos un total de **481 aciertos** frente a **19 fallos**, es decir, un **3.8%** de las imágenes.
+```
+correct = np.sum(predicted_classes == true_classes)
+incorrect = len(true_classes) - correct
+correct, incorrect
+--------------------------------------------------------
+(481, 19)
+```
+
+Por último, vemos los **aciertos** que se han conseguido por **cada clase**. Si nos fijamos en el **gráfico de barras**, solo hay una clase que haya obtenido dos fallos (el resto uno), por lo que en total **habrían fallado 18 clases de 100**.
+
+![Gráfico de aciertos](imgs_readme/hits_per_class_bar.png)
+
+El modelo muestra un **rendimiento excelente** en la clasificación de imágenes de mariposas, con una **precisión global de 0.96**, habiendo obtenido una precisión, recall y f1-score de 1.0 en la mayoría de los casos.
+```
+# Genera un informe de clasificación
+report = classification_report(true_classes, predicted_classes, target_names=[dict_name[i] for i in range(100)])
+print(report)
+```
+| Especie                        | Precisión | Recall | F1-Score | Soporte |
+|--------------------------------|-----------|--------|----------|---------|
+| ADONIS                         | 0.83      | 1.00   | 0.91     | 5       |
+| AFRICAN GIANT SWALLOWTAIL      | 1.00      | 1.00   | 1.00     | 5       |
+| AMERICAN SNOOT                 | 0.80      | 0.80   | 0.80     | 5       |
+| AN 88                          | 1.00      | 1.00   | 1.00     | 5       |
+| APPOLLO                        | 1.00      | 1.00   | 1.00     | 5       |
+| ...                            | ...       | ...    | ...      | ...     |
+| **accuracy**            |   |        |  **0.96**        | 500     |
+| **macro avg**             | **0.97**  | **0.96** | **0.96** | 500   |
+| **weighted avg**         | **0.97**  | **0.96** | **0.96** | 500   |
