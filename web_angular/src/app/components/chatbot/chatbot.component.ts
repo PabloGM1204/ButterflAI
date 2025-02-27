@@ -55,12 +55,12 @@ export class ChatbotComponent {
     this.isLoading = true;
 
     const requestBody = {
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o-mini",
       messages: [
         { role: "system", content: "Eres ButterflAI, un asistente experto en mariposas que responde preguntas de manera clara y útil." },
         { role: "user", content: this.userInput }
       ],
-      max_tokens: 150
+      max_tokens: 300
     };
 
     this.http.post(this.apiUrl, requestBody, {
@@ -74,6 +74,8 @@ export class ChatbotComponent {
         this.messages.push(botMessage);
         this.saveMessages(); // ✅ Guardar historial después de recibir respuesta
         this.isLoading = false;
+
+        this.speak(botMessage.text);
       },
       (error) => {
         console.error('Error en la API:', error);
@@ -82,5 +84,14 @@ export class ChatbotComponent {
     );
 
     this.userInput = ''; // Limpiar input después de enviar el mensaje
+  }
+
+  // 🔊 Función para convertir texto en voz
+  speak(text: string) {
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = 'es-ES';  // Idioma español
+    speech.rate = 1;        // Velocidad normal
+    speech.pitch = 1;       // Tono normal
+    window.speechSynthesis.speak(speech);
   }
 }

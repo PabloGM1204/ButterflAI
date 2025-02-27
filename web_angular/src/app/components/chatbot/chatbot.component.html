@@ -6,8 +6,10 @@
   <ion-card-content>
     <div class="chat-container">
       <div *ngFor="let message of messages" class="message" [ngClass]="{'user-message': message.sender === 'user', 'bot-message': message.sender === 'bot'}">
-        <!-- Icono del Bot -->
-        <ion-icon *ngIf="message.sender === 'bot'" name="cube-outline" class="chat-icon bot-icon"></ion-icon>
+        <!-- 🎙️ Solo mostrar el botón en los mensajes del bot -->
+        <ion-button *ngIf="message.sender === 'bot'" (click)="speak(message.text)">
+          🎙️
+        </ion-button>
 
         <!-- Texto del Mensaje -->
         <span class="message-text">{{ message.text }}</span>
