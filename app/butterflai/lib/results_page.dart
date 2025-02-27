@@ -22,15 +22,15 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   void initState() {
     super.initState();
-    _initializeClassifier();
-  }
-
-  Future<void> _initializeClassifier() async {
+    // Inicia la clasificación
     _runClassification();
   }
 
+  /// Clasifica la mariposa en la imagen
   Future<void> _runClassification() async {
+    // Clasifica la mariposa
     var result = await ButterflyModels.classifyButterfly(widget.image);
+    // Actualiza la clasificación, la confianza y la imagen final
     setState(() {
       _classificationClass = result["classificationClass"];
       _confidence = result["confidence"];
