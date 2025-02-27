@@ -13,7 +13,7 @@ class ButterflyModels {
   static late tfl.Interpreter _classifierInterpreter;
 
   /// Etiquetas de las mariposas
-  static Map<int, String> butterflyLabels = {};
+  static Map<int, String> _butterflyLabels = {};
 
   /// Bandera que indica si los modelos están cargados
   static bool _modelsLoaded = false;
@@ -46,7 +46,7 @@ class ButterflyModels {
     List<String> labelsList =
         butterflyLabelsString.split('\n').map((e) => e.trim()).toList();
     // Crea un mapa con las etiquetas
-    butterflyLabels = {
+    _butterflyLabels = {
       for (int i = 0; i < labelsList.length; i++) i: labelsList[i]
     };
     // Marca las etiquetas como cargadas
@@ -142,16 +142,28 @@ class ButterflyModels {
     // Ejecuta el modelo de clasificación
     _classifierInterpreter.run(classifierInput, classifierOutput);
 
-    // Encuentra la clase con mayor confianza
-    int maxIndex = classifierOutput[0].indexWhere((element) =>
-        element ==
-        classifierOutput[0].reduce((double a, double b) => a > b ? a : b));
+    // Convierte el resultado en una lista de pares (clase, confianza)
+    List<Map<String, dynamic>> predictions = [];
+    for (int i = 0; i < _butterflyLabels.length; i++) {
+      predictions.add({
+        "class": _butterflyLabels[i], // Clase
+        "confidence": classifierOutput[0][i], // Confianza
+      });
+    }
 
-    // Devuelve la clasificación, la confianza y la imagen final
+    // Ordena las predicciones de mayor a menor confianza
+    predictions.sort((a, b) => b["confidence"].compareTo(a["confidence"]));
+
+    // Toma las 10 mejores predicciones
+    List<Map<String, dynamic>> topPredictions = predictions.take(10).toList();
+
+    // Elimina las predicciones con confianza menor a 0.01
+    topPredictions.removeWhere((element) => element["confidence"] <= 0.01);
+
+    // Devuelve la clasificación con las 10 mejores predicciones y la imagen final
     return {
-      "classificationClass": butterflyLabels[maxIndex] ?? "Desconocido",
-      "confidence": classifierOutput[0][maxIndex],
-      "finalImage": finalImage
+      "topPredictions": topPredictions, // Lista de las 10 mejores predicciones
+      "finalImage": finalImage, // Imagen redimensionada
     };
   }
 

@@ -61,12 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    /// Ancho de la pantalla
+    // Ancho de la pantalla
     double width = MediaQuery.of(context).size.width;
-
-    /// Alto de la pantalla
+    // Alto de la pantalla
     double height = MediaQuery.of(context).size.height;
-
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
