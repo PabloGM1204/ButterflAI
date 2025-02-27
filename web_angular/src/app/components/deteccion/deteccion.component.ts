@@ -15,6 +15,8 @@ export class DeteccionComponent {
   imageUrl: string | ArrayBuffer | null = null;
   detections: any[] = [];
   detectionImageUrl: string | ArrayBuffer | null = null;
+  detectionAttempted = false;
+  errorMessage: string | null = null;
 
   @Output() detectionsFound = new EventEmitter<any[]>(); // ✅ Emitimos detecciones
   @Output() sendToClassifier = new EventEmitter<File>(); // ✅ Emitimos imagen a clasificador
@@ -43,6 +45,8 @@ export class DeteccionComponent {
 
     console.log('Enviando imagen a la API...');
 
+    this.errorMessage = null;
+
     const formData = new FormData();
     formData.append('file', this.selectedFile);
 
@@ -53,21 +57,28 @@ export class DeteccionComponent {
     }).subscribe(
       (response: any) => {
         console.log('Respuesta de la API:', response);
-        this.detections = response.detections;
+        this.detections = Array.isArray(response.detections) ? response.detections : [];
         this.detectionsFound.emit(this.detections); // ✅ Emitimos detecciones
         this.detectionImageUrl = null; // 🔹 Limpiar la imagen anterior
+        this.detectionAttempted = true;
+
 
         // 🔹 Verificar si hay una mariposa en la detección
-        const mariposaDetectada = this.detections.some(det => det.class.toLowerCase() === 'butterfly');
-        if (mariposaDetectada) {
-          console.log('¡Mariposa detectada! Enviando al clasificador...');
-          this.drawBoundingBoxes(); // ✅ Dibujar recuadros en la imagen
-          if (this.selectedFile)
-            this.sendToClassifier.emit(this.selectedFile); // ✅ Enviar la imagen al clasificador
+        if (this.detections.length > 0) {
+          // 🔹 Verificar si hay una mariposa en la detección
+          const mariposaDetectada = this.detections.some(det => det.class.toLowerCase() === 'butterfly');
+          if (mariposaDetectada) {
+            console.log('¡Mariposa detectada! Enviando al clasificador...');
+            this.drawBoundingBoxes(); // ✅ Dibujar recuadros en la imagen
+            if (this.selectedFile)
+              this.sendToClassifier.emit(this.selectedFile); // ✅ Enviar la imagen al clasificador
+          }
         }
       },
       (error) => {
         console.error('Error al subir imagen:', error);
+        this.detections = [];
+        this.errorMessage = "Error en la detección: No se pudo procesar la imagen.";
       }
     );
   }

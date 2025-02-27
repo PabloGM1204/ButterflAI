@@ -17,13 +17,22 @@
         Detectar Objetos
       </ion-button>
 
-      <!-- Mostrar los resultados de la detección -->
-      <div *ngIf="detections.length > 0" class="results-container">
-        <h3>Confianza</h3>
-        <li *ngFor="let item of detections">
-          <strong>{{ item.confidence | percent }}</strong>
-        </li>
+      <!-- Mensaje de error si la API falla -->
+      <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
 
+      <div class="results-container" *ngIf="detectionAttempted">
+        <h3>Confianza</h3>
+      
+        <ng-container *ngIf="detections.length > 0; else noDetections">
+          <div *ngFor="let item of detections">
+            <strong style="color: green;">{{ item.confidence | percent }}</strong>
+          </div>
+        </ng-container>
+      
+        <!-- Mostrar el mensaje solo si ya se ha intentado detectar algo -->
+        <ng-template #noDetections>
+          <p *ngIf="detectionAttempted" style="color: red;">No se ha encontrado ninguna detección</p>
+        </ng-template>
       </div>
     </div>
 

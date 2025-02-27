@@ -6,31 +6,29 @@ ion-content {
 .classification-container {
     text-align: center;
     color: #333;
-  }
+}
   
-  .image-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 1rem 0;
-  }
-  
-  .empty-container {
-    width: 45%;
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .center-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 45%;
-  }
+.image-row {
+  display: flex;
+  justify-content: center; /* ✅ Centra el contenido */
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.empty-container {
+  width: 20%; /* ✅ Reducimos el tamaño del espacio vacío */
+  text-align: center;
+  background-color: transparent;
+  padding: 1rem;
+}
+
+.center-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60%; /* ✅ Damos más espacio al contenido principal */
+}
   
   ion-card {
     margin: 1rem;
