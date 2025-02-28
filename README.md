@@ -811,7 +811,16 @@ Cuando se **detecte** alguna, se mostrará un **cuadro rojo** sobre esta y, en l
 
 Para poder utilizar la aplicación, **únicamente** se necesita el **APK** que se encuentra en la **página web**. Para descargarlo, hay que pulsar el botón que dice "Descargar APK".
 
-<img src="imgs_readme/descarga_apk.png" alt="alt text" width="500"/>
+<img src="imgs_readme/descarga_apk.jpg" alt="alt text" height="350"/>
+
+Nos aparecerá un cuadro para seleccionar la cuenta que queremos utilizar para descargarlo.
+
+<img src="imgs_readme/escoger_cuenta_apk.jpg" alt="alt text" height="350"/>
+
+Después, deberemos escoger el instalador con el que abrirlo y comenzará la descarga.
+
+<img src="imgs_readme/escoger_instalador_apk.jpg" alt="alt text" height="350"/>
+<img src="imgs_readme/descargando_apk.jpg" alt="alt text" height="350"/>
 
 <h4 style="text-decoration: underline;">¿Es fiable?</h4>
 
