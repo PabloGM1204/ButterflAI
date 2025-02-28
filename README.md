@@ -762,9 +762,85 @@ print(report)
 
 
 ## 7. Uso de *NPL*
+
+En cuanto al NPL hemos decidio hacer dos cosas ya que una nos parecia poca:
+
+* **Chatbot**: es un chatbot que usa la API de chatGPT proporcionada por los profesores en clase, mas el prompt para que siempre se mantegan en cosas de mariposas y no desvarie es el siguiente.
+
+```Eres ButterflAI, un asistente experto en mariposas que responde preguntas de manera clara y útil.```
+
+* *Text to speech*: usando los mensajes que nos devuelve el chatbot le damos voz.
+
+Hemos hecho dos chatbots uno para la página web y otro para el movil:
+
+<h4 style="text-decoration: underline;">Web</h4>
+
+<img src="imgs_readme/web_img/chat_.png" alt="alt text" height="350"/>
+
+* Para la web añadimos el *text to speech* es decir para que lea el mensaje del bot en voz alta y asi añadirle un extra al *NPL*, esta es la función que usamos en la web:
+```
+// Función para convertir texto en voz
+speak(text: string) {
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = 'es-ES';  // Idioma español
+    speech.rate = 1;        // Velocidad normal
+    speech.pitch = 1;       // Tono normal
+    window.speechSynthesis.speak(speech);
+}
+```
+
+<h4 style="text-decoration: underline;">Movil</h4>
+
+<img src="imgs_readme/chatbot_app.jpg" alt="alt text" height="350"/>
+
 ## 8. Web y Aplicación
 
+Como hemos comentado hemos tanto una página web como una aplicación movil:
+
 ### Página Web
+
+* [Link](https://butterflai.netlify.app)
+
+La página web esta desarrollada en **Angular** con **Ionic**, hosteada en **Netlify** y usando la API de **Hugging Face** que es donde esta subido los modelos tanto el de clasificación como el de detección, ya que al desarrollarlo con estas tecnología no se podía subir en el mismo proyecto como lo hace streamlit.
+
+* [Link a la API de hugging face](https://huggingface.co/spaces/pablogm-1204/TFM-Mariposas/tree/main)
+
+<h4 style="text-decoration: underline;">Interfaz</h4>
+
+Decidimos hacerlo de una forma sencilla pero moderna, usando colores faciles de ver y entender para que sea todo intuitivo y atractivo a la misma vez.
+
+Al entrar en la página nos encontramos con el titulo de la página, nuestros nombre y el boton de descarga del APK. Abajo a la derecha esta el boton del **Chatbot**.
+
+<img src="imgs_readme/web_img/inicio.png" alt="alt text" height="350"/>
+
+Asi es como se ve el **Chatbot**:
+
+<img src="imgs_readme/web_img/chat.png" alt="alt text" height="350"/>
+
+Si deslizamos hacia abajo veremos donde podemos subir una imagen para que el detector encuentre la mariposa en la imagen y el clasificador nos diga que mariposa es:
+
+<img src="imgs_readme/web_img/class.png" alt="alt text" height="350"/>
+
+Cuando le pasamos la imgen hace la petición a la API y nos devuelve el cuadrado de donde ha detectado la mariposa.
+
+<img src="imgs_readme/web_img/class2.png" alt="alt text" height="350"/>
+
+En el caso de que no haya detectado saldría asi:
+
+<img src="imgs_readme/web_img/class3.png" alt="alt text" height="350"/>
+
+Automaticamente una vez se detecta la imagen de la mariposa nos dice que tipo cree que son:
+
+<img src="imgs_readme/web_img/tipo.png" alt="alt text" height="350"/>
+
+En la parte baja del todo estamos los creadores con nuestros links tanto a **GitHub** como a **Linkedin**:
+
+<img src="imgs_readme/web_img/link.png" alt="alt text" height="350"/>
+
+**Resultado final de la web**
+
+![Descripción del GIF](imgs_readme/web_img/web.gif)
+
 
 ### Aplicación Móvil
 
