@@ -270,6 +270,22 @@ Ejemplo de un label creado por **Dino**:
 
 ## 4. Exploración y visualización de los datos
 
+Realizamos una pequeña **exploración** sobre los datos.
+
+En primer lugar, como se comentó anteriormente, los datos se encuentran **divididos** en los tres conjuntos de **entrenamiento, validación y prueba**. Por ello, vamos a visualizar cuántas imágenes van para cada uno.
+
+Sacamos un **gráfico de pastel** y vemos que la gran **mayoría** de datos están recogidos en el conjunto de **entrenamiento** (**12594**), mientras que **en los otros dos** encontramos **500 imágenes** por cada uno.
+
+<img src="imgs_readme/pastel_dataset.png" alt="alt text" width="500"/>
+
+Como contamos con **100 especies** disintas, al tener dicha cantidad en los datos de entrenamiento podemos intuir que hay distinto cantidad de fotos por clase. Por tanto, mostramos un **gráfico de barras** para visualizar cuántas imágenes tiene cada una.
+
+<img src="imgs_readme/bar_imagenes_por_especie.png" alt="alt text" width="500"/>
+
+Si no fijamos, la especie que cuenta con **más imágenes** es la *MOURNING CLOAK*, por el contrario, la que cuenta con menos es la **SIXSPOT BURNET MOTH**. 
+
+Este gráfico nos indica indirectamente que no hay ninguna clase sin fotos. Por el contrario, todas tienen al menos 100 imágenes.
+
 ## 5. Preparación de los datos para los algoritmos de *Machine Learning*
 
 En esta parte ya que hemos hecho dos modelos vamos a explicar por separado cada modelo para hacerlo mas facil de entender:
@@ -839,11 +855,11 @@ Depende del dispositivo pueden variar un poco los pasos.
 
 2. **Análisis de la app**: al tratarse de un APK desconocido, el móvil posiblemente te **alerte** para que realices un **análisis**. En este caso, **da igual lo que hagas** porque, como hemos dicho antes, la aplicación es **totalmente fiable**, por lo que saldrá **limpio**, indicando que es **segura**.
 
+* Si no solicitan hacer un análisis, la otra posibilidad es que pregunten si confías en la aplicación, ya que es desconocida, pero como hemos explicado es 100% fiable.
+
 3. **Instalación**: si ya hemos hecho los dos pasos anteriores, la aplicación se debería estar instalando, así que solo queda esperar a que termine. Una vez acabe, le damos a **Abrir** si nos sale el cuadro emergente, en caso contrario, buscamos el **logotipo** de la aplicación.
 
--------------------- INSERTAR FOTOS DE LOS PASOS  --------------------
-
-<img src="imgs_readme/logo_butterflai.jpg" alt="alt text" width="300"/>
+<img src="imgs_readme/logo_butterflai.jpg" alt="alt text" width="150"/>
 
 ## 9. Conclusiones
 
