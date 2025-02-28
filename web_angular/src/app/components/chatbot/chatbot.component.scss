@@ -45,8 +45,10 @@ ion-card {
   
   .bot-message {
     background-color: #fff3e0;
-    color: #333;
-    justify-content: flex-start;
+  color: #333;
+  justify-content: flex-start;
+  display: flex;
+  flex-direction: column; /* ✅ Esto coloca el botón debajo del texto */
   }
   
   .message-text {
@@ -91,7 +93,26 @@ ion-card {
     border-radius: 50%;
   }
   
-  ion-button ion-icon {
+ion-button ion-icon {
     font-size: 1.2rem;
-  }
-  
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column; /* Asegura que el botón quede debajo */
+  align-items: flex-start; /* Alinea todo a la izquierda */
+  width: 100%;
+  margin-bottom: 8px; /* Espacio entre mensajes */
+}
+
+.boton-audio {
+  margin-top: 6px; /* ✅ Espacio entre el texto del mensaje y el botón */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.boton-audio ion-icon {
+  font-size: 24px; /* Ajusta el tamaño del icono (prueba 28px o 32px si quieres más grande) */
+  color: #333; /* Cambia el color si lo deseas */
+}

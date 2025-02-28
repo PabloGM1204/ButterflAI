@@ -5,24 +5,28 @@
 
   <ion-card-content>
     <div class="chat-container">
-      <div *ngFor="let message of messages" class="message" [ngClass]="{'user-message': message.sender === 'user', 'bot-message': message.sender === 'bot'}">
-        <!-- 🎙️ Solo mostrar el botón en los mensajes del bot -->
-        <ion-button *ngIf="message.sender === 'bot'" (click)="speak(message.text)">
-          🎙️
-        </ion-button>
-
-        <!-- Texto del Mensaje -->
-        <span class="message-text">{{ message.text }}</span>
-
-        <!-- Icono del Usuario -->
-        <ion-icon *ngIf="message.sender === 'user'" name="person-circle-outline" class="chat-icon user-icon"></ion-icon>
+      <div *ngFor="let message of messages" class="message-container">
+        <div class="message" 
+             [ngClass]="{'user-message': message.sender === 'user', 'bot-message': message.sender === 'bot'}">
+          
+          <!-- Texto del Mensaje -->
+          <span class="message-text">{{ message.text }}</span>
+          <!-- Botón de voz SOLO para mensajes del bot, AHORA DEBAJO -->
+          <div *ngIf="message.sender === 'bot'" class="boton-audio">
+            <ion-button fill="clear" expand="full" (click)="speak(message.text)"><ion-icon name="volume-high-outline"></ion-icon></ion-button>
+          </div>
+          
+          <!-- Icono del Usuario -->
+          <ion-icon *ngIf="message.sender === 'user'" name="person-circle-outline" class="chat-icon user-icon"></ion-icon>
+        </div>
+  
       </div>
-
+  
       <div *ngIf="isLoading" class="loading">Escribiendo...</div>
     </div>
-
+  
     <!-- Input y botón en la misma línea -->
-    <div class="input-container" style="display: flex; align-items: center;">
+    <div class="input-container">
       <ion-input [(ngModel)]="userInput" placeholder="Escribe un mensaje..."
                  class="chat-input" (keyup.enter)="sendMessage()" style="flex: 1;"></ion-input>
       <ion-button (click)="sendMessage()" fill="clear">
@@ -30,4 +34,5 @@
       </ion-button>
     </div>
   </ion-card-content>
-</ion-card>
+  
+</ion-card>  
