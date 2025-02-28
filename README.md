@@ -244,14 +244,14 @@ dict_name
 
 Ejemplo de un label creado por **Dino**:
 
-Cada label tien estos 5 datos: **0** se refiere a la clase que es, en este caso como todas son mariposas le pone clase **0**, los cuatro siguientes valores son los puntos de *xmin, xmax, ymin, ymax* que sirven para saber donde esta la caja delimitadora de la detección.
+* Cada label tien estos 5 datos: **0** se refiere a la clase que es, en este caso como todas son mariposas le pone clase **0**, los cuatro siguientes valores son los puntos de *xmin, xmax, ymin, ymax* que sirven para saber donde esta la caja delimitadora de la detección.
 
 ```0 0.5 0.48671875 0.92890625 0.9015625```
 
 <img src="detector/dataset_final/train/images/image_1_jpg.rf.ddf7ec584529709fd345025297a3e8c3.jpg" alt="alt text" width="300"/>
 
 
-* Tambien para el modelo de deteccion necesitabamos unas 200 imagenes de objetos aleatorios para que el modelo supiera diferencia entre lo que es una mariposa y no, estos datos tambien son imagenes solo que no tienen un label que les corresponda ya que estas fotos no tiene una mariposa por lo que no tiene una caja delimitadora para la mariposa.
+* Tambien para el modelo de deteccion necesitabamos unas 200 imagenes de objetos aleatorios para que el modelo supiera diferenciar entre lo que es una mariposa y no, estos datos tambien son imagenes solo que no tienen un label que les corresponda ya que estas fotos no tiene una mariposa por lo que no tiene una caja delimitadora para la mariposa.
 
 <img src="detector/dataset_final/train/images/resized_image_132.jpg" alt="alt text" width="300"/>
 
@@ -259,6 +259,8 @@ Cada label tien estos 5 datos: **0** se refiere a la clase que es, en este caso 
 ## 4. Exploración y visualización de los datos
 
 ## 5. Preparación de los datos para los algoritmos de *Machine Learning*
+
+En esta parte ya que hemos hecho dos modelos vamos a explicar por separado cada modelo para hacerlo mas facil de entender:
 
 ### 5.1 Modelo de Detección
 
