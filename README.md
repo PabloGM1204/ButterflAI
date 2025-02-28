@@ -809,9 +809,9 @@ Cuando se **detecte** alguna, se mostrará un **cuadro rojo** sobre esta y, en l
 
 <h4 style="text-decoration: underline;">¿Cómo me descargo la app?</h4>
 
-Para poder utilizar la aplicación, **únicamente** se necesita el **APK** que se encuentra en este mismo repositorio. Puedes acceder y **descargártelo** desde aquí.
+Para poder utilizar la aplicación, **únicamente** se necesita el **APK** que se encuentra en la **página web**. Para descargarlo, hay que pulsar el botón que dice "Descargar APK".
 
--------------------- ENLACE AL APK  --------------------
+<img src="imgs_readme/descarga_apk.png" alt="alt text" width="500"/>
 
 <h4 style="text-decoration: underline;">¿Es fiable?</h4>
 
@@ -834,6 +834,12 @@ Depende del dispositivo pueden variar un poco los pasos.
 
 -------------------- INSERTAR FOTOS DE LOS PASOS  --------------------
 
--------------------- INSERTAR FOTO DEL LOGO  --------------------
+<img src="imgs_readme/logo_butterflai.jpg" alt="alt text" width="300"/>
 
 ## 9. Conclusiones
+
+En este proyecto hemos implementado **dos modelos** de inteligencia artificial: un **detector** de mariposas y un **clasificador** de especies basado en imágenes. Además, hemos integrado un **chatbot** *GPT-4o-mini* especializado en mariposas y polillas, permitiendo a los usuarios resolver dudas o descubrir datos curiosos en cualquier momento. 
+
+Para facilitar su uso, hemos creado una **web** intuitiva con *Angular*, donde los usuarios pueden** subir una fotografía** para identificar una mariposa y conocer su especie. También hemos desarrollado una **aplicación móvil** para *Android* con *Flutter*, que permite la **detección** de mariposas en **tiempo real**. En ambas plataformas, el **chatbot** está integrado.
+
+Por todo esto, *ButterflAI* es una **herramienta valiosa** tanto para apasionados de los lepidópteros como para quienes dan sus primeros pasos en el fascinante mundo de las mariposas.
