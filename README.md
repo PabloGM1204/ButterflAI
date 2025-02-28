@@ -1,4 +1,4 @@
-Logo de la app
+<img src="imgs_readme/logo_butterflai.jpg" alt="alt text" width="150"/>
 
 # ButterflAI
 TFM realizado por [Pablo García Muñoz]() y [Jairo Andrades Bueno]() en el **Master de Inteligencía Artificial y Big Data CPIFP Alan Turing**.
