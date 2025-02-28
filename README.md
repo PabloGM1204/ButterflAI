@@ -14,9 +14,13 @@ Nostros dos siempre hemos querido hacer una aplicación de detección con uso a 
 3. Limpieza de datos
 
     3.1 Comprobación de los datos
+
     3.2 Eliminación de nulos
+
     3.3 Carga de imágenes
+
     3.4 Creación de diccionario de labels
+    
     3.5 Descripción de los datos
 
 4. Exploración y visualización de los datos
@@ -26,7 +30,7 @@ Nostros dos siempre hemos querido hacer una aplicación de detección con uso a 
 8. Web y Aplicación
 9. Conclusiones
 
-## Descripción del proyecto
+## 1. Descripción del proyecto
 
 **ButterlfAI** es una aplicación de detección y clasificación de mariposas a tiempo real con la capacidad de detectar hasta 100 clases de mariposas distintas, la hemos desarrollado en dos vertiente una en pagina web y otra para dispositivos moviles. Las dos hacen uso de un chatbot especializado en mariposas para en el caso de tener alguna duda poder preguntarle.
 
@@ -66,7 +70,7 @@ Explicación detallada desde abajo hasta arriba:
 
     Las dos aplicaciones tienen **ChatBot** el cual usa la API de **ChatGPT**.
 
-## Obtención de datos
+## 2. Obtención de datos
 
 Principalmente buscamos varios dataset que tuviesen lo mismo en comun que son fotos de mariposas, ya que pare el entrenamiento del detector solo necesitamos fotos de mariposas y fotos aleatorios (mas adelante explicamos esto) mientras que para el clasificador necesitamos fotos de mariposas en categorias.
 
@@ -82,7 +86,7 @@ Para tener una copia de los dataset en la nube por si se nos pierde y ademas de 
 * [Cuaderno de subida](cuadernos/up_awsS3.ipynb)
 * [Cuaderno de descarga](cuadernos/down_awsS3.ipynb)
 
-## Limpieza de datos
+## 3. Limpieza de datos
 
 Para la limpieza de los datos de los datasets hemos divido el proceso en varias partes para que todo sea mas claro y sencillo de explicar y entender ademas de que estan hechos en cuadernos *jupyter*:
 
@@ -506,7 +510,7 @@ El entrenamiento ha finalizado en la época 82, con una precisión en los datos 
 
 Si visualizamos las gráficas de **precisión** y de **pérdida** mediante la variable `history` podemos ver que la **evolución** de las dos líneas es muy **parecida** en ambos casos, manteniéndose muy cercanas en todo momento.
 
-![Gráfico de entrenamiento](imgs_readme/history_plot.png)
+<img src="imgs_readme/history_plot.png" alt="alt text" width="500"/>
 
 <h4 style="text-decoration: underline;">Prueba del modelo</h4>
 
@@ -540,7 +544,7 @@ correct, incorrect
 
 Por último, vemos los **aciertos** que se han conseguido por **cada clase**. Si nos fijamos en el **gráfico de barras**, solo hay una clase que haya obtenido dos fallos (el resto uno), por lo que en total **habrían fallado 18 clases de 100**.
 
-![Gráfico de aciertos](imgs_readme/hits_per_class_bar.png)
+<img src="imgs_readme/hits_per_class_bar.png" alt="alt text" width="700"/>
 
 El modelo muestra un **rendimiento excelente** en la clasificación de imágenes de mariposas, con una **precisión global de 0.96**, habiendo obtenido una precisión, recall y f1-score de 1.0 en la mayoría de los casos.
 ```
@@ -559,3 +563,81 @@ print(report)
 | **accuracy**            |   |        |  **0.96**        | 500     |
 | **macro avg**             | **0.97**  | **0.96** | **0.96** | 500   |
 | **weighted avg**         | **0.97**  | **0.96** | **0.96** | 500   |
+
+
+## 7. Uso de *NPL*
+## 8. Web y Aplicación
+
+### Página Web
+
+### Aplicación Móvil
+
+A parte de la página web, contamos con una aplicación desarrollada en **Flutter** 
+para dispositivos Android.
+
+<h4 style="text-decoration: underline;">Interfaz</h4>
+
+Al abrirla, lo primero que veremos será la **pantalla de inicio**. Esta 
+nos permitirá **movernos** entre las distintas páginas que comprenden la aplicación.
+
+En la **parte superior**, encontramos el **nombre de la app**, un subtítulo con 
+los **modelos que contiene** y **nuestros nombres**. 
+
+En la **parte inferior**, dos **iconos** con los que acceder al **chatbot** y 
+la selección de un **archivo a clasificar**, respectivamente. Por último, un 
+**botón** para **detectar mariposas en tiempo real**.
+
+<img src="imgs_readme/inicio_app.jpg" alt="alt text" height="350"/>
+
+Le damos al icono del **robot** para acceder al **chatbot**. Este utiliza el 
+modelo *gpt-4o-mini* especializado únicamente en **mariposas y polillas**, para poder preguntar cualquier duda sobre las mismas o aprender datos curiosos en cualquier momento.
+
+En esta pantalla, encontramos un cuadro de texto con el que escribir el **prompt**, que debe ser de una **longitud máxima de 300 caracteres**, aunque no tiene **ningún límite** en cuanto al **uso del mismo**.
+
+<img src="imgs_readme/chatbot_app.jpg" alt="alt text" height="350"/>
+
+Regresamos a la pantalla de inicio, esta vez le damos al icono de la **galería con una lupa** para **seleccionar una foto** de nuestro **dispositivo**. 
+
+<img src="imgs_readme/seleccionar_foto_app.jpg" alt="alt text" height="350"/>
+
+Al escogerla, nos redirige a otra pantalla donde se nos **muestra la foto elegida** y un **desplegable** desde la parte inferior, que deja ver de primeras la **especie predicha** con su **confianza** y, si **deslizamos** hacia arriba, las **diez mejores predicciones** en orden según su confianza (mostrándola también).
+
+<img src="imgs_readme/resultado_foto_app.jpg" alt="alt text" height="350"/>
+
+Por último, accedemos a la **detección en tiempo real** mediante el botón del inicio.
+Nos aparecerá la **cámara trasera** con la que deberemos apuntar a la **mariposa**.
+
+Cuando se **detecte** alguna, se mostrará un **cuadro rojo** sobre esta y, en la **caja negrq** en la parte inferior, saldrá la **especie** predicha junto con su **confianza**.
+
+<img src="imgs_readme/deteccion_foto_app.jpg" alt="alt text" height="350"/>
+
+<h4 style="text-decoration: underline;">¿Cómo me descargo la app?</h4>
+
+Para poder utilizar la aplicación, **únicamente** se necesita el **APK** que se encuentra en este mismo repositorio. Puedes acceder y **descargártelo** desde aquí.
+
+-------------------- ENLACE AL APK  --------------------
+
+<h4 style="text-decoration: underline;">¿Es fiable?</h4>
+
+La aplicación no se ha diseñado con **ningún fin malicioso**, sino para **facilitar el uso de los modelos** sin necesidad de acceder a la web, permitiendo el **uso en tiempo real** para evitar sacar las fotografías y **ahorrar** así **tiempo** y **espacio**.
+
+<h4 style="text-decoration: underline;">¿Qué permisos necesita?</h4>
+
+Al abrirla por primera vez se solicitarán los permisos de **cámara** y **micrófono** para usar la detección en tiempo real, además de poder acceder a los archivos de tu móvil en caso de querer seleccionar una foto de la galería.
+
+
+<h4 style="text-decoration: underline;">¿Qué pasos debo seguir una vez me desargue el APK?</h4>
+
+Depende del dispositivo pueden variar un poco los pasos. 
+
+1. **Ejecutar el APK**: seguramente te pregunten si quieres instalarla, por lo que le damos a ***Instalar***.
+
+2. **Análisis de la app**: al tratarse de un APK desconocido, el móvil posiblemente te **alerte** para que realices un **análisis**. En este caso, **da igual lo que hagas** porque, como hemos dicho antes, la aplicación es **totalmente fiable**, por lo que saldrá **limpio**, indicando que es **segura**.
+
+3. **Instalación**: si ya hemos hecho los dos pasos anteriores, la aplicación se debería estar instalando, así que solo queda esperar a que termine. Una vez acabe, le damos a **Abrir** si nos sale el cuadro emergente, en caso contrario, buscamos el **logotipo** de la aplicación.
+
+-------------------- INSERTAR FOTOS DE LOS PASOS  --------------------
+
+-------------------- INSERTAR FOTO DEL LOGO  --------------------
+
+## 9. Conclusiones
