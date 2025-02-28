@@ -239,6 +239,18 @@ dict_name
 
 ### 3.5 Descripción de los datos
 
+* El dataset se compone de las siguientes columnas:
+
+    1. **Class id**: **id** que hace referencia a la **clase** de cada especie, por ejemplo, el class id **0** se refiere a **ADONIS**.
+
+    2. **Filepaths**: **ruta** en la que se encuentra la **imagen** original. Están localizadas en subcarpetas organizadas por tipo de **dataset** y por **especie**. En el caso de la primera, está en la carpeta de **entrenamiento**, dentro de **ADONIS** y se llama **001.jpg**.
+
+    3. **Labels**: **etiquetas** que definen la **clase** de cada mariposa, es decir, la **especie** de la misma (*ADONIS*).
+
+    4. **Data set**: **conjunto** al que pertenece cada imagen. Pueden ser de **entrenamiento** (*train*), de **validación** (*valid*) o de **prueba** (*test*).
+
+    5. **Image**: cada **imagen** representada como un **array** de tipo **flotante** **normalizada** en el rango **[0, 1]**
+
 * Como hemos comentado antes los datos importantes de los datasets son las imágenes pero para el caso del entrenamiento del modelo de **detección** necesitabamos los datos en formato **YOLO** que son las imagenes con las *labels* (etiquetas con la información de cada imagen como las cordenadas de la caja que delimita la mariposa). Por eso usamos **Roboflow** ya que no era eficiente hacer a mas de 1000 imagenes la caja delimitadora a mano y esta página con el plan gratuito nos permitio a 1000 imagenes y usando el modelo de deteccion de **Dino** poder crear un dataset con el formato **YOLO** que es el que necesitabamos.
     * [Link a nuestro dataset subido a **Roboflow**](https://universe.roboflow.com/butterflai/butterflies-detection-sfxwl/dataset/5)
 
@@ -460,7 +472,7 @@ X_train.dtype, y_train.dtype, X_valid.dtype, y_valid.dtype, X_test.dtype, y_test
 
 ## 6. Entrenamiento del modelo y comprobación del rendimiento
 
-Igual que en el apartado anterior dividimos la epxplicación en dos partes para así poder explicarlo todo mas claro y conciso:
+Igual que en el apartado anterior, dividimos la explicación en dos partes para así poder explicarlo todo mas claro y conciso:
 
 ### 6.1 Modelo de Detección
 
@@ -564,6 +576,8 @@ Estas son imagenes con las que se ha probado el modelo con el *fine-tunning* ya 
 ### 6.2 Modelo de Clasificación
 
 <h4 style="text-decoration: underline;">Estructura del modelo</h4>
+
+* [Cuaderno de clasificación](clasificador\modelo_clasificacion.ipynb)
 
 Para explicar el modelo que hemos creado, vamos a verlo por partes.
 
@@ -692,7 +706,7 @@ El entrenamiento ha finalizado en la época 82, con una precisión en los datos 
 
 Si visualizamos las gráficas de **precisión** y de **pérdida** mediante la variable `history` podemos ver que la **evolución** de las dos líneas es muy **parecida** en ambos casos, manteniéndose muy cercanas en todo momento.
 
-<img src="imgs_readme/history_plot.png" alt="alt text" width="500"/>
+<img src="imgs_readme/history_plot.png" alt="alt text" width="700"/>
 
 <h4 style="text-decoration: underline;">Prueba del modelo</h4>
 
@@ -711,7 +725,7 @@ predictions = model.predict(X_test)
 predicted_classes = np.argmax(predictions, axis=1)
 true_classes = np.argmax(y_test, axis=1) 
 ```
-<img src="imgs_readme/confusion_matrix.png" alt="alt text" width="300"/>
+<img src="imgs_readme/confusion_matrix.png" alt="alt text" width="500"/>
 
 Como se puede apreciar, casi todos los **valores** se encuentran en la **diagonal de la matriz**, indicando que se han acertado casi todas las fotos.
 
