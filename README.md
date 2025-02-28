@@ -68,7 +68,7 @@ Explicación detallada desde abajo hasta arriba:
 
 * **ChatBot:**
 
-    Las dos aplicaciones tienen **ChatBot** el cual usa la API de **ChatGPT**.
+    Las dos aplicaciones tienen **ChatBot** el cual usa la API de **ChatGPT** y tiene *text2speech*.
 
 ## 2. Obtención de datos
 
