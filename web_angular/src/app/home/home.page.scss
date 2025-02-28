@@ -145,3 +145,9 @@ ion-content {
     transform: scale(1.1);
   }
 }
+
+.fab-logo {
+  width: 50%;  // Ajusta según el tamaño deseado
+  height: 50%;
+  object-fit: contain;
+}
