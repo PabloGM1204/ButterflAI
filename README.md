@@ -543,8 +543,11 @@ Una vez termianado nos crea una [carpeta](detector/butterfly_detection/yolov8_bu
 
 <h4 style="text-decoration: underline;">Matriz de confusión</h4>
 
-
 <img src="detector/butterfly_detection/yolov8_butterfly/confusion_matrix.png" alt="Matriz de Confusión" width="500"/>
+
+<h4 style="text-decoration: underline;">Resumen del entrenamiento</h4>
+
+<img src="detector/butterfly_detection/yolov8_butterfly/results.png" alt="resumen" width="500"/>
 
 <h4 style="text-decoration: underline;">Ejemplo de Batch de Entrenamiento<h4>
 
@@ -555,6 +558,7 @@ Estas son imagenes que se han usado a la hora del entrenamiento:
 Estas son imagenes con las que se ha probado el modelo con el *fine-tunning* ya hecho:
 
 <img src="detector/butterfly_detection/yolov8_butterfly/val_batch0_pred.jpg" alt="Val Batch 0 Pred" width="500"/>
+
 
 
 ### 6.2 Modelo de Clasificación
