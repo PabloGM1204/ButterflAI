@@ -67,6 +67,7 @@ export class DeteccionComponent {
         if (this.detections.length > 0) {
           // 🔹 Verificar si hay una mariposa en la detección
           const mariposaDetectada = this.detections.some(det => det.class.toLowerCase() === 'butterfly');
+          console.log("ASDASODASUDASDHASDASDASDASD")
           if (mariposaDetectada) {
             console.log('¡Mariposa detectada! Enviando al clasificador...');
             this.drawBoundingBoxes(); // ✅ Dibujar recuadros en la imagen

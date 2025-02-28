@@ -38,23 +38,29 @@ export class ClasificationComponent implements OnChanges {
     formData.append('file', this.image);
 
     console.log('Enviando imagen para clasificación...');
+    console.log('Imagen:', this.image);
 
-    this.http.post(this.apiUrl, formData).subscribe(
-      (response: any) => {
-        console.log('Clasificación recibida:', response);
-        
-        // ✅ Convertir respuesta en una lista de objetos { class, confidence }
-        this.classificationResults = response.top_classes.map((className: string, index: number) => ({
-          class: className,
-          confidence: response.top_confidences[index]
-        }));
-
-        this.cdr.detectChanges(); // ✅ Forzar actualización
-      },
-      (error) => {
-        console.error('Error en la clasificación:', error);
-      }
-    );
+    if(this.detections.length > 0) {
+      this.http.post(this.apiUrl, formData).subscribe(
+        (response: any) => {
+          console.log('Clasificación recibida:', response);
+          
+          // ✅ Convertir respuesta en una lista de objetos { class, confidence }
+          this.classificationResults = response.top_classes.map((className: string, index: number) => ({
+            class: className,
+            confidence: response.top_confidences[index]
+          }));
+  
+          this.cdr.detectChanges(); // ✅ Forzar actualización
+        },
+        (error) => {
+          console.error('Error en la clasificación:', error);
+        }
+      );
+    } else {
+      console.log('Detecciones:', this.detections);
+      this.classificationResults = [];
+    }
   }
 
   drawBoundingBoxes() {
