@@ -264,6 +264,87 @@ En esta parte ya que hemos hecho dos modelos vamos a explicar por separado cada 
 
 ### 5.1 Modelo de Detección
 
+Para el modelo de detección como comentamos anteriormente los unicos datos que necesitamos son los labels **.txt** y las fotos **.jpg** ademas de que todas las imagenes deben tener el mismo tamaño 640x640, para conseguir ese formato usamos [**Roboflow**](https://universe.roboflow.com/butterflai/butterflies-detection-sfxwl/dataset/5) y así conseguimos el formato de YOLO que es el que necesitamos para hacer fine-tunning al modelo de YOLO v8.
+Los demas datos que venian incialmente en el dataset de *butterfly-images40-species* no nos son necesarios para el modelo de deteccion por lo que lo eliminamos.
+
+Tambien para llegar a conseguir un buen resultado y que el modelo de detección no globalice todo como una mariposa tenemos que darle imagenes que no sean de mariposas y por ello no tengan un *label*, para ello cogimos las 200 primeras imagenes del dataset de [random_img](detector/datasets_original/random_img/dataset/), estas imagenes vienen en distintos tamaños y necesitabamos estandarizarlas todas al mismo tamaño lo primero de todo:
+```
+def load_images_from_folder(folder, num_images):
+    # Lista para almacenar las imágenes
+    images = []
+    # Recorrer el directorio y cargar las imágenes
+    for filename in os.listdir(folder):
+        if len(images) >= num_images:
+            break
+        img_path = os.path.join(folder, filename)
+        if os.path.isfile(img_path):
+            img = Image.open(img_path)
+            images.append(img)
+    return images
+
+def resize_image(image, size):
+    # Redimensionar la imagen
+    return image.resize(size, Image.LANCZOS)
+
+def save_image(image, path):
+    # Guardar la imagen
+    image.save(path)
+
+def process_images(input_folder, output_folder, num_images=200, size=(640, 640)):
+    # Crear el directorio de salida si no existe
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+    
+    # Cargar las imágenes del directorio de entrada
+    images = load_images_from_folder(input_folder, num_images)
+
+    # Procesar las imágenes
+    for i, image in enumerate(images):
+        resized_image = resize_image(image, size)
+        output_path = os.path.join(output_folder, f"resized_image_{i+1}.jpg")
+        save_image(resized_image, output_path)
+```
+Con estas funciones logramos procesar las imagenes y guardarlas y para usar estas funciones usamos este codigo de aqui:
+```
+# Uso de la función
+input_folder = "random_img/dataset/train"
+output_folder = "random_img/editados"
+process_images(input_folder, output_folder, num_images=200, size=(640, 640))
+```
+Para asi poder guardar las imagenes en la carpeta [random_img](detector/datasets_original/random_img/editados/).
+
+Ya tenemos todas las imagenes que necesitabamos para el entrenamiento, ahora solo hay que unirlas todas bajo las mismas carpetas creando una estructura de carpetas tal que así:
+```
+dataset/
+│── train/
+│   ├── images/       # Imágenes de entrenamiento
+│   ├── labels/         # Etiquetas en formato YOLO para entrenamiento
+│
+│── valid/
+│   ├── images/       # Imágenes de validación
+│   ├── labels/         # Etiquetas en formato YOLO para validación
+│
+│── data.yaml      # Archivo de configuración del dataset
+```
+Esta estructura de carpetas es esta [carpeta](detector/dataset_final/), ademas de la estructura como se ve en el gráfico tambien se necesita un **data.yaml** que es el archivo de configuración del dataset para que a la hora de hacer el *fine-tunning* sea capaz de saber donde estas las imagenes y su *label*:
+```
+path: D:/TFM/Codigo/dataset_final
+train: ../train/images
+val: ../valid/images
+nc: 1
+names: ['butterfly']
+```
+Vemos que son los rutas tanto de las imagenes como de los *labels*, se sabe que una imagen le pertenece un *label* por el nombre ya que tienen el mismo nombre el modelo entiend que le pertenece a esa imagen, tambien estan los siguientes datos:
+* ```path: D:/TFM/Codigo/dataset_final``` -> ruta absoluta de donde esta la carpeta del dataset.
+* ```train: ../train/images``` -> ubicación de los datos de entrenamiento.
+* ```val: ../valid/images``` -> ubicación de los datos de validación.
+* ```nc: 1``` -> significa que solo hay una clase en este dataset en nuestro caso es **butterfly**.
+* ```names: ['butterfly']``` -> es aqui donde decimos el nombre de las clases, como pusimos que solo habia una pues aqui solo hay un nombre.
+
+Para la divison de datos entre entrenamiento y validación hemos seguido el estandar del **20%** de los datos para que sean de validación.
+
+> **En total de este dataset juntando las _200_ imágenes del _random_img_ más las _1000_ que tenemos en formato YOLO v8 de las mariposas, todo estandarizado al mismo tamaño 640x640, conseguimos un dataset de unas _1200_ imágenes con unas _1000_ etiquetas correspondientes a las imágenes que tienen mariposas.**
+
 ### 5.2 Modelo de Clasificación
 
 Anteriormente, dejamos el dataset con todas las columnas, además de una nueva llamada `image`. Sin embargo, ya no nos hacen falta la mayoría de ellas.
@@ -379,7 +460,102 @@ X_train.dtype, y_train.dtype, X_valid.dtype, y_valid.dtype, X_test.dtype, y_test
 
 ## 6. Entrenamiento del modelo y comprobación del rendimiento
 
+Igual que en el apartado anterior dividimos la epxplicación en dos partes para así poder explicarlo todo mas claro y conciso:
+
 ### 6.1 Modelo de Detección
+
+Al usar el modelo ya creado de YOLO v8 que es capaz de detectar 80 tipos de clases pero ninguna de ellas es la de mariposa de ahi que vayamos a hacerle *fine-tunning*, para ello lo que hicimos fue **reentrenar** con el dataset que comentamos antes que está en formato YOLO v8, al ser un modelo de YOLO está hecho con **PyTorch**.
+
+<h4 style="text-decoration: underline;">Entrenamiento del modelo</h4>
+
+* [Cuaderno de entrenamiento](detector/modelo_deteccion.ipynb)
+
+1. **Preparación del entorno**: Para que este entrenmaiento no tarde mucho necesitabamos usar la gráfica de nuestro ordenador personal:
+* Instalación de **Cuda** ya que nosotros tenemos gráfica envidia usaremos Cuda.
+* Veríficamos si coge la gráfica (cuda es la GPU).
+    ```
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    print(f"Usando el dispositivo: {device}")
+    -------------------------------------------------------
+    Usando el dispositivo: cuda
+    ```
+* Ahora que ya sabemos que la gráfica está disponible para usarse seguimos con lo siguiente.
+
+2. **Carga del modelo**: Lo primero de todo es seleccionar el modelo de YOLO v8 por lo que tenemos que cargarlo.
+```
+model = YOLO("yolov8n.pt") 
+```
+3. **Preparación del entrenamiento**: Como hemos dicho es un modelo ya creado por lo que no tendremos que crear las capas desde cero sino simplemente entrenarlo con las siguientes características.
+```
+model.train(
+    data="modificado_copy/data.yaml",
+    epochs=50,            
+    imgsz=640,             
+    batch=8,               
+    project="butterfly_detection",
+    name="yolov8_butterfly", 
+    device=0,               
+    half=True,              
+    lr0=1e-4,              
+    workers=8,              
+    augment=True,          
+    freeze=10,              
+    cos_lr=True,            
+    patience=10,            
+    val=True              
+)
+```
+* ```epochs=50``` -> Cantidad de épocas.  
+
+* ```imgsz=640``` -> Tamaño de las imágenes utilizadas en el entrenamiento.  
+
+* ```batch=8``` -> Tamaño del batch (cantidad de imágenes por iteración).  
+
+* ```project="butterfly_detection"``` -> Nombre del directorio donde se guardarán los resultados.  
+
+* ```name="yolov8_butterfly"``` -> Nombre del directorio del proyecto.  
+
+* ```device=0``` -> Define en qué dispositivo se ejecuta el entrenamiento (0 = GPU, "cpu" si no hay GPU).  
+
+* ```half=True``` -> Usa precisión de 16 bits (fp16) si es compatible con la GPU para hacer un entrenamiento mas optimo. 
+
+* ```lr0=1e-4``` -> Tasa de aprendizaje inicial.  
+
+* ```workers=8``` -> Número de hilos de procesamiento para cargar datos.  
+
+* ```augment=True``` -> Aplica aumentación de datos durante el entrenamiento.  
+
+* ```freeze=10``` -> Congela las primeras 10 capas de la red para transfer learning.  
+
+* ```cos_lr=True``` -> Usa programación de tasa de aprendizaje con un decaimiento cíclico.  
+
+* ```patience=10``` -> Cantidad de épocas sin mejora antes de detener el entrenamiento.  
+
+* ```val=True``` -> Realiza validación después de cada época.
+
+* Por defecto el optimizador que usa este modelo es el de **Adam**.
+
+Una vez termianado nos crea una [carpeta](detector/butterfly_detection/yolov8_butterfly/) donde esta todos los gráficos, matriz de confusión, ect, que nos serviara para poder ver los datos de como ha ido el entrenamiento:
+
+<h4 style="text-decoration: underline;">Muestra la evolución de la precisión del modelo.<h4>
+
+<img src="detector/butterfly_detection/yolov8_butterfly/P_curve.png" alt="Curva de Precisión" width="500"/>
+
+<h4 style="text-decoration: underline;">Matriz de confusión</h4>
+
+
+<img src="detector/butterfly_detection/yolov8_butterfly/confusion_matrix.png" alt="Matriz de Confusión" width="500"/>
+
+<h4 style="text-decoration: underline;">Ejemplo de Batch de Entrenamiento<h4>
+
+Estas son imagenes que se han usado a la hora del entrenamiento:
+
+<img src="detector/butterfly_detection/yolov8_butterfly/train_batch0.jpg" alt="Train Batch 0" width="500"/>
+
+Estas son imagenes con las que se ha probado el modelo con el *fine-tunning* ya hecho:
+
+<img src="detector/butterfly_detection/yolov8_butterfly/val_batch0_pred.jpg" alt="Val Batch 0 Pred" width="500"/>
+
 
 ### 6.2 Modelo de Clasificación
 
