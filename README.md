@@ -775,7 +775,7 @@ Hemos hecho dos chatbots uno para la página web y otro para el movil:
 
 <h4 style="text-decoration: underline;">Web</h4>
 
-<img src="imgs_readme/chat_web.png" alt="alt text" height="350"/>
+<img src="imgs_readme/web_img/chat_.png" alt="alt text" height="350"/>
 
 * Para la web añadimos el *text to speech* es decir para que lea el mensaje del bot en voz alta y asi añadirle un extra al *NPL*, esta es la función que usamos en la web:
 ```
