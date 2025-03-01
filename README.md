@@ -3,9 +3,11 @@
 # ButterflAI
 TFM realizado por [Pablo García Muñoz]() y [Jairo Andrades Bueno]() en el **Master de Inteligencía Artificial y Big Data CPIFP Alan Turing**.
 
+[Pagina web](https://butterflai.netlify.app) | Aplicacion movil | Vídeo
+
 ## Justificación del proyecto
 
-Nostros dos siempre hemos querido hacer una aplicación de detección con uso a tiempo real para el TFM, inicialmente se nos ocurrio la idea de hacerlo sobre constelaciones ya que el resultado final podría quedar muy bien visualmente pero despues de probrar vimos que no era el enfoque perfecto para un TFM de este master, por ello seguimos con la idea de detección pero esta vez con **Mariposas** y así creamos **BUTTERFLAI** ya que es algo muy visual y comodo el poder usar una aplicación que ha tiempo real sea capaz de detectar la mariposa y te la classifique para decirte que tipo es.
+Nostros dos siempre hemos querido hacer una aplicación de detección con uso a tiempo real para el TFM, inicialmente se nos ocurrio la idea de hacerlo sobre constelaciones ya que el resultado final podría quedar muy bien visualmente pero despues de probrar vimos que no era el enfoque perfecto para un TFM de este master, por ello seguimos con la idea de detección pero esta vez con **Mariposas** y así creamos **BUTTERFLAI** ya que es algo muy visual y comodo el poder usar una aplicación que ha tiempo real sea capaz de detectar la mariposa y te la classifique para decirte que tipo es y ademas darte información del tipo que ha clasificado.
 
 ## Índice
 
@@ -22,6 +24,8 @@ Nostros dos siempre hemos querido hacer una aplicación de detección con uso a 
     3.4 Creación de diccionario de labels
     
     3.5 Descripción de los datos
+
+    3.6 Scrapping
 
 4. Exploración y visualización de los datos
 5. Preparación de los datos para los algoritmos de *Machine Learning*
@@ -47,6 +51,7 @@ Explicación detallada desde abajo hasta arriba:
 * **Datos:**
     
     Los datos han sido recogidos desde kaggle ya que había varios dataset con un gran cantidad de fotos que es lo que necesitamos para los dos modelos.
+    Para la información de las mariposas hemos hecho scraping a una web.
     Estos tres dataset los juntamos en uno sumando las clases ya existente ya añadiendo las nuevas para poder subir el dataset bruto a S3 de AWS.
 
 * **ButterflAI Modelo:**
@@ -81,6 +86,12 @@ Principalmente buscamos varios dataset que tuviesen lo mismo en comun que son fo
 * [butterfly-image-classification](https://www.kaggle.com/datasets/phucthaiv02/butterfly-image-classification): Tercer dataset que es como el primero ya que tiene unas 75 clases de mariposas y vienen catalogadas por tipo en un csv.
 
 * [random-images](https://www.kaggle.com/datasets/ezzzio/random-images): Ultimo dataset utilizado para el detector de imagenes ya que haciendo el fine-tunning unicamente con imagenes de mariposas no era muy preciso, pero gracias a añadir imagenes sin mariposas (mas adelante explicado) fue capaz de mejorar la detección.
+
+Para la información de cada mariposa lo que hemos hecho ha sido hacer scraping de esta web [butterfly-conservation](https://butterfly-conservation.org):
+
+* En esta [carpeta](scrapping/) esta todo sobre el scrapeo.
+* Enlace de los archivos en S3 [mariposas.json](https://info-tmf-butterflai.s3.us-east-1.amazonaws.com/datos/mariposas.json), [polillas.json](https://info-tmf-butterflai.s3.us-east-1.amazonaws.com/datos/moths.json).
+
 
 Para tener una copia de los dataset en la nube por si se nos pierde y ademas de que no nos ocupe mucho espacio en los equipos usamos dos cuadernos **jupyter** para poder subir los dataset a AWS S3 usando las cuentas de *g.educaand*: 
 * [Cuaderno de subida](cuadernos/up_awsS3.ipynb)
@@ -267,6 +278,142 @@ Ejemplo de un label creado por **Dino**:
 
 <img src="detector/dataset_final/train/images/resized_image_132.jpg" alt="alt text" width="300"/>
 
+### 3.6 Scrapping
+
+Hemos hecho **scrapping** para poder conseguir información de las mariposas y polillas de está página web [butterfly-conservation](https://butterfly-conservation.org).
+Está página tiene muchos tipos de de mariposas y polillas en total unas 300 pero aun asi no estan todas las que nostros tenemos pero para aquellas que no estan se las pedimos a la api de chatGPT. Para hacer el scrapeo de tanto las mariposas como de las polillas hacemos todo de la misma manera solo vamos a explicar una la de las mariposas.
+
+Para conseguir las urls de cada mariposa lo primero de todo hacemos un scrapeo general a la web donde estan todas las mariposas:
+
+* [mariposas.json](scrapping/butterfly_url.py).
+* [polillas.json](scrapping/urls_moths.json).
+
+
+* Lo primero de todo es configurar el **BeatufullSoup** que es con lo que haremos el scrapeo:
+```
+def get_soup(url):
+    response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
+    if response.status_code == 200:
+        return BeautifulSoup(response.content, 'html.parser')
+    else:
+        print(f"Error al acceder a {url} - Código: {response.status_code}")
+        return None
+```
+* Con esta función conseguimos todos las url.
+```
+def get_all_butterfly_links():
+    butterfly_links = []
+    page = 0  # Primera página
+
+    while True:
+        print(f"Scrapeando página {page + 1}...")
+        soup = get_soup(f"{IDENTIFY_URL}?page={page}")
+        
+        if not soup:
+            break  # Si no hay respuesta, terminamos el scraping
+
+        # Buscar enlaces de mariposas dentro de <h3 class="field-content">
+        found_links = []
+        for h3 in soup.find_all("h3", class_="field-content"):
+            link = h3.find("a", href=True)
+            if link:
+                full_url = BASE_URL + link["href"]  # Convertir ruta relativa en URL completa
+                found_links.append(full_url)
+
+        if not found_links:
+            break  # Si en la página no hay más enlaces, hemos terminado
+
+        butterfly_links.extend(found_links)
+        page += 1  # Pasamos a la siguiente página
+
+    return list(set(butterfly_links))  # Eliminar duplicados
+
+# Ejecutar la función y obtener todas las URLs
+butterfly_urls = get_all_butterfly_links()
+```
+* Con esto lo guardamos en un **.json**.
+```
+with open("urls_mariposas.json", "w", encoding="utf-8") as f:
+    json.dump(butterfly_urls, f, ensure_ascii=False, indent=4)
+```
+
+* Asi conseguimos los **.json** con las urls de cada mariposa:
+
+    * [mariposas.json](scrapping/urls_mariposas.json).
+    * [polillas.json](scrapping/urls_moths.json).
+
+* Ahora que tenemos ya la url vamos con los datos de cada mariposa y lo primero de todo es leer el **.json** de las urls.
+```
+with open("urls_mariposas.json", "r", encoding="utf-8") as f:
+    butterfly_urls = json.load(f)
+```
+
+* Con esta función sacamos la información que buscamos como la **Descripción**, **Hábitat**, etc:
+```
+def extract_butterfly_info(url):
+    soup = get_soup(url)
+    if not soup:
+        return None
+
+    # Extraer nombre común
+    try:
+        name = soup.find("h1").text.strip()
+    except AttributeError:
+        name = "No disponible"
+
+    # Extraer nombre científico
+    try:
+        scientific_name = soup.find("p", class_="sub-heading").text.strip()
+    except AttributeError:
+        scientific_name = "No disponible"
+
+    # Extraer descripción desde <meta name="description">
+    try:
+        description = soup.find("meta", attrs={"name": "description"})["content"].strip()
+    except (AttributeError, TypeError):
+        description = "No disponible"
+
+    # Función para extraer información de listas (<ul><li>)
+    def extract_list_data(header_text):
+        try:
+            section = soup.find("h4", text=header_text)
+            if section:
+                items = section.find_next("ul").find_all("li")
+                return [item.text.strip() for item in items]
+        except AttributeError:
+            return []
+        return []
+
+    # Extraer información de distintas secciones
+    size_and_family = extract_list_data("Size and Family")
+    conservation_status = extract_list_data("Conservation Status")
+    foodplants = extract_list_data("Caterpillar Foodplants")
+    lifecycle = extract_list_data("Lifecycle")
+    habitat = extract_list_data("Habitat")
+
+    return {
+        "Nombre común": name,
+        "Nombre científico": scientific_name,
+        "Descripción": description,
+        "Tamaño y Familia": size_and_family,
+        "Estado de conservación": conservation_status,
+        "Plantas alimenticias de orugas": foodplants,
+        "Ciclo de vida": lifecycle,
+        "Hábitat": habitat,
+        "URL": url
+    }
+```
+
+* Igual que con las urls, los datos lo guardamos tambien en un **.json**:
+```
+with open("mariposas.json", "w", encoding="utf-8") as f:
+    json.dump(butterfly_data, f, ensure_ascii=False, indent=4)
+```
+
+* Quedarían estos dos **.json** con toda la información scrapeada:
+
+    * [mariposas.json](scrapping/mariposas.json)
+    * [moths.json](scrapping/moths.json)
 
 ## 4. Exploración y visualización de los datos
 
@@ -277,6 +424,45 @@ En primer lugar, como se comentó anteriormente, los datos se encuentran **divid
 Sacamos un **gráfico de pastel** y vemos que la gran **mayoría** de datos están recogidos en el conjunto de **entrenamiento** (**12594**), mientras que **en los otros dos** encontramos **500 imágenes** por cada uno.
 
 <img src="imgs_readme/pastel_dataset.png" alt="alt text" width="500"/>
+
+Ejemplo de información de una mariposa:
+
+```
+{
+        "Nombre común": "Green Hairstreak",
+        "Nombre científico": "Callophrys rubi",
+        "Descripción": "The Green Hairstreak holds its wings closed, except in flight, showing only the green underside with its faint white streak. The extent of this white marking is very variable; it is frequently reduced to a few white dots and may be almost absent. Males and females look similar and are most readily told apart by their behaviour: rival males may be seen in a spiralling flight close to shrubs, while the less conspicuous females are more often encountered while laying eggs.",
+        "Tamaño y Familia": [
+            "Family: Hairstreaks",
+            "Size: Small",
+            "Wing Span Range (male to female): 27-34mm"
+        ],
+        "Estado de conservación": [
+            "GB Red List (2022): Least Concern",
+            "Butterfly Conservation priority: Medium",
+            "European status: Not threatened"
+        ],
+        "Plantas alimenticias de orugas": [
+            "Countries: England, Scotland, Wales and Ireland",
+            "Widespread throughout Britain and Ireland, but not a garden visitor and often difficult to spot",
+            "Abundance trend: -38% (1976-2019)",
+            "Distribution trend: -16% (1977-2019)"
+        ],
+        "Ciclo de vida": [
+            "Countries: England, Scotland, Wales and Ireland",
+            "Widespread throughout Britain and Ireland, but not a garden visitor and often difficult to spot",
+            "Abundance trend: -38% (1976-2019)",
+            "Distribution trend: -16% (1977-2019)"
+        ],
+        "Hábitat": [
+            "Countries: England, Scotland, Wales and Ireland",
+            "Widespread throughout Britain and Ireland, but not a garden visitor and often difficult to spot",
+            "Abundance trend: -38% (1976-2019)",
+            "Distribution trend: -16% (1977-2019)"
+        ],
+        "URL": "https://butterfly-conservation.org/butterflies/green-hairstreak"
+    },
+```
 
 Como contamos con **100 especies** disintas, al tener dicha cantidad en los datos de entrenamiento podemos intuir que hay distinto cantidad de fotos por clase. Por tanto, mostramos un **gráfico de barras** para visualizar cuántas imágenes tiene cada una.
 
