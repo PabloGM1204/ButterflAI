@@ -5,8 +5,8 @@ import 'dart:typed_data';
 import 'package:butterflai/butterfly_info.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
-import 'http_service.dart';
-import 'models_management.dart';
+import '../http_service.dart';
+import '../models_management.dart';
 
 /// Pantalla de resultados de la clasificación
 class ResultScreen extends StatefulWidget {

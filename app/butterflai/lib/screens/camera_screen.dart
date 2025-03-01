@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'models_management.dart';
+import '../models_management.dart';
 
 /// Pantalla de la cámara en tiempo real
 class CameraScreen extends StatefulWidget {
