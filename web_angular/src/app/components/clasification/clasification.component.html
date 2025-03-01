@@ -27,8 +27,8 @@
           <p><strong>🌍 Habitat:</strong> {{ mariposaClasificada["Hábitat"] }}</p>
       
           <!-- 🔄 Mostrar mensaje si los datos son generados por IA -->
-          <p *ngIf="esGeneradoPorIA" class="info-ia">
-            ℹ️ Information generated with AI
+          <p *ngIf="mariposaClasificada['IA']" class="info-ia">
+            <strong>Information generated with AI</strong>
           </p>
       
           <!-- 🔄 Mostrar mensaje si la info está cargando -->

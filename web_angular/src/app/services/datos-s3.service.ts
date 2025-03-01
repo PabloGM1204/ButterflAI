@@ -88,7 +88,8 @@ export class datosS3Service {
             "Nombre común": parsedResponse["Common Name"] || nombre,
             "Nombre científico": parsedResponse["Scientific Name"] || "Desconocido",
             "Descripción": parsedResponse["Description"] || "No hay descripción disponible.",
-            "Hábitat": parsedResponse["Habitat"] || "Desconocido"
+            "Hábitat": parsedResponse["Habitat"] || "Desconocido",
+            "IA": true
           };
         } catch (error) {
           console.error("Error parsing ChatGPT response:", error);
@@ -96,7 +97,8 @@ export class datosS3Service {
             "Nombre común": nombre,
             "Nombre científico": "Desconocido",
             "Descripción": "La IA no pudo generar información precisa.",
-            "Hábitat": "Generado por IA"
+            "Hábitat": "Generado por IA",
+            "IA": true
           };
         }
       }),

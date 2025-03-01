@@ -92,28 +92,31 @@ export class ClasificationComponent implements OnChanges {
 
   buscarMariposa(nombre: string) {
     this.cargandoInfo = true; // Mostramos "Cargando información..."
-    this.esGeneradoPorIA = false; // Inicialmente asumimos que no es de ChatGPT
-    this.cdr.detectChanges();
-
+    this.esGeneradoPorIA = false; // Inicialmente asumimos que no es IA
+    this.cdr.detectChanges(); // Forzar actualización UI
+  
     this.datosService.getMariposa(nombre).subscribe(mariposa => {
       if (mariposa) {
         this.mariposaClasificada = mariposa;
+        this.esGeneradoPorIA = false; // Se encontró en el JSON, no es generado por IA
         console.log('Datos de la mariposa clasificada:', mariposa);
       } else {
-        this.esGeneradoPorIA = true; // Si no está en JSON, marcamos que es IA
-        console.log('Consultando', this.esGeneradoPorIA);
         console.warn('No se encontró en el JSON, consultando ChatGPT...');
+        this.esGeneradoPorIA = true; // Ahora sí marcamos que es IA antes de asignar datos
+        console.log('esGeneradoPorIA:', this.esGeneradoPorIA);
         this.mariposaClasificada = {
           "Nombre común": nombre,
           "Nombre científico": "Desconocido",
           "Descripción": "Generando información...",
           "Hábitat": "Desconocido"
         };
+        this.cdr.detectChanges();
       }
       this.cargandoInfo = false; // Ocultamos mensaje de carga
-      this.cdr.detectChanges();
+      this.cdr.detectChanges(); // Forzar actualización de UI después de cambios
     });
   }
+  
 
   leerDescripcion() {
     if (!this.mariposaClasificada || !this.mariposaClasificada["Descripción"]) {
