@@ -146,7 +146,7 @@ class _CameraScreenState extends State<CameraScreen> {
     final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detección en tiempo real',
+        title: Text('Real-time detection',
             style: TextStyle(
               color: Colors.black,
               fontSize: screenWidth * 0.06,
