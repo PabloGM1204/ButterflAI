@@ -1,15 +1,14 @@
 <ion-content class="ion-padding classification-container">
   <div class="image-row">
     <!-- Espacio vacío a la izquierda -->
-    <div class="empty-container" style="background-color: transparent; box-shadow: none;">
-      <!--<p>Espacio vacío</p>-->
-    </div>
+    <div class="empty-container"></div>
 
-    <!-- Resultados de clasificación -->
+    <!-- Contenedor central -->
     <div class="center-container">
+      <!-- Tarjeta para el Top 5 Clasificaciones -->
       <ion-card *ngIf="classificationResults.length > 0">
         <ion-card-content>
-          <h3>Top 5 Clasificaciones:</h3>
+          <h3>🔍 Top 5 Clasificaciones:</h3>
           <ul>
             <li *ngFor="let result of classificationResults">
               <strong>{{ result.class }}</strong> - Confianza: {{ result.confidence | percent }}
@@ -17,11 +16,30 @@
           </ul>
         </ion-card-content>
       </ion-card>
+
+      <!-- 🦋 Tarjeta con la información de la mariposa clasificada -->
+      <ion-card *ngIf="mariposaClasificada && clasificacionResultado" class="butterfly-card">
+        <ion-card-content>
+          <h3>🦋 {{ mariposaClasificada["Nombre común"] }}</h3>
+
+          <p><strong>📜 Nombre Científico:</strong> {{ mariposaClasificada["Nombre científico"] }}</p>
+          <p><strong>📖 Descripción:</strong> {{ mariposaClasificada["Descripción"] }}</p>
+          <p><strong>🌍 Hábitat:</strong> {{ mariposaClasificada["Hábitat"] }}</p>
+          <p *ngIf="esGeneradoPorIA" class="info-ia">
+            ℹ️ Información generada con IA
+          </p>
+
+          <!-- 🔄 Show message if info is being generated -->
+          <p *ngIf="cargandoInfo">
+            ⏳ Generating information with AI...
+          </p>
+
+        </ion-card-content>
+      </ion-card>
+
     </div>
 
     <!-- Espacio vacío a la derecha -->
-    <div class="empty-container" style="background-color: transparent; box-shadow: none;">
-      <!--<p>Espacio vacío</p>-->
-    </div>
+    <div class="empty-container"></div>
   </div>
 </ion-content>
