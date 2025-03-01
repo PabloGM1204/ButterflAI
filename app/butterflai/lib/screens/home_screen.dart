@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'models/camera_screen.dart';
-import 'chatbot/chat_screen.dart';
-import 'models/results_page.dart';
+import 'camera_screen.dart';
+import 'chat_screen.dart';
+import 'results_screen.dart';
 
 /// Pantalla principal de la aplicación
 class HomeScreen extends StatefulWidget {
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         // Subtítulo
         Text(
-          'Detector y Clasificador',
+          'Detector and Classifier',
           style: TextStyle(
             fontSize: width * 0.05,
             color: Colors.white,
@@ -191,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   // Texto de carga
                   Text(
-                    'Cargando cámaras...',
+                    'Loading cameras...',
                     style: TextStyle(
                       fontSize: width * 0.05,
                       color: Colors.black,
@@ -204,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             // Texto del botón
             : Text(
-                'Detección en tiempo real',
+                'Real-time detection',
                 style: TextStyle(
                   fontSize: width * 0.05,
                   color: Colors.black,

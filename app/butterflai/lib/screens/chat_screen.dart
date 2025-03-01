@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'chat_service.dart';
+import '../http_service.dart';
 
 /// Pantalla del chatbot
 class ChatScreen extends StatefulWidget {
@@ -14,9 +14,6 @@ class ChatScreen extends StatefulWidget {
 
 /// Estado de la pantalla del chatbot
 class _ChatScreenState extends State<ChatScreen> {
-  /// Servicio del chatbot
-  final ChatService _chatService = ChatService();
-
   /// Controlador del campo de texto
   final TextEditingController _controller = TextEditingController();
 
@@ -27,7 +24,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     _addMessage("bot",
-        "Hola soy ButterflAI, tu asistente experto en mariposas.\n¿En qué te puedo ayudar?");
+        "Hi, I'm ButterflAI, your expert butterfly assistant.\nHow can I help you?");
   }
 
   /// Agrega un mensaje a la lista y actualiza la interfaz
@@ -50,7 +47,7 @@ class _ChatScreenState extends State<ChatScreen> {
     // Oculta el teclado al enviar el mensaje
     FocusScope.of(context).unfocus();
     // Obtiene la respuesta del chatbot
-    String response = await _chatService.getResponse(message);
+    String response = await HttpService.getResponse(message);
     // Añade la respuesta del chatbot a la lista de mensajes
     _addMessage("bot", response);
   }

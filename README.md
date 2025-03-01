@@ -1061,44 +1061,50 @@ En la **parte inferior**, dos **iconos** con los que acceder al **chatbot** y
 la selección de un **archivo a clasificar**, respectivamente. Por último, un 
 **botón** para **detectar mariposas en tiempo real**.
 
-<img src="imgs_readme/inicio_app.jpg" alt="alt text" height="350"/>
+<img src="imgs_readme/app_img/inicio.jpg" alt="alt text" height="350"/>
 
 Le damos al icono del **robot** para acceder al **chatbot**. Este utiliza el 
 modelo *gpt-4o-mini* especializado únicamente en **mariposas y polillas**, para poder preguntar cualquier duda sobre las mismas o aprender datos curiosos en cualquier momento.
 
 En esta pantalla, encontramos un cuadro de texto con el que escribir el **prompt**, que debe ser de una **longitud máxima de 300 caracteres**, aunque no tiene **ningún límite** en cuanto al **uso del mismo**.
 
-<img src="imgs_readme/chatbot_app.jpg" alt="alt text" height="350"/>
+<img src="imgs_readme/app_img/chatbot.jpg" alt="alt text" height="350"/>
 
 Regresamos a la pantalla de inicio, esta vez le damos al icono de la **galería con una lupa** para **seleccionar una foto** de nuestro **dispositivo**. 
 
-<img src="imgs_readme/seleccionar_foto_app.jpg" alt="alt text" height="350"/>
+<img src="imgs_readme/app_img/seleccionar_foto.jpg" alt="alt text" height="350"/>
 
-Al escogerla, nos redirige a otra pantalla donde se nos **muestra la foto elegida** y un **desplegable** desde la parte inferior, que deja ver de primeras la **especie predicha** con su **confianza** y, si **deslizamos** hacia arriba, las **diez mejores predicciones** en orden según su confianza (mostrándola también).
+Al escogerla, nos redirige a otra pantalla donde se nos **muestra la foto elegida** y un **desplegable** desde la parte inferior, que deja ver de primeras la **especie predicha** con su **confianza** y, si **deslizamos** hacia arriba, las **diez mejores predicciones** en orden según su confianza (mostrándola).
 
-<img src="imgs_readme/resultado_foto_app.jpg" alt="alt text" height="350"/>
+También muestra **información** sobre la especie predicha: 
+- **Nombre científico**
+- **Pequeña descripción**
+- **Hábitat**
+
+
+<img src="imgs_readme/app_img/resultado.jpg" alt="alt text" height="350"/>
 
 Por último, accedemos a la **detección en tiempo real** mediante el botón del inicio.
 Nos aparecerá la **cámara trasera** con la que deberemos apuntar a la **mariposa**.
 
 Cuando se **detecte** alguna, se mostrará un **cuadro rojo** sobre esta y, en la **caja negrq** en la parte inferior, saldrá la **especie** predicha junto con su **confianza**.
 
-<img src="imgs_readme/deteccion_foto_app.jpg" alt="alt text" height="350"/>
+<img src="imgs_readme/app_img/real-time.jpg" alt="alt text" height="350"/>
 
 <h4 style="text-decoration: underline;">¿Cómo me descargo la app?</h4>
 
 Para poder utilizar la aplicación, **únicamente** se necesita el **APK** que se encuentra en la **página web**. Para descargarlo, hay que pulsar el botón que dice "Descargar APK".
 
-<img src="imgs_readme/descarga_apk.jpg" alt="alt text" height="350"/>
+<img src="imgs_readme/app_img/descarga_apk.jpg" alt="alt text" height="350"/>
 
 Nos aparecerá un cuadro para seleccionar la cuenta que queremos utilizar para descargarlo.
 
-<img src="imgs_readme/escoger_cuenta_apk.jpg" alt="alt text" height="350"/>
+<img src="imgs_readme/app_img/escoger_cuenta_apk.jpg" alt="alt text" height="350"/>
 
 Después, deberemos escoger el instalador con el que abrirlo y comenzará la descarga.
 
-<img src="imgs_readme/escoger_instalador_apk.jpg" alt="alt text" height="350"/>
-<img src="imgs_readme/descargando_apk.jpg" alt="alt text" height="350"/>
+<img src="imgs_readme/app_img/escoger_instalador_apk.jpg" alt="alt text" height="350"/>
+<img src="imgs_readme/app_img/descargando_apk.jpg" alt="alt text" height="350"/>
 
 <h4 style="text-decoration: underline;">¿Es fiable?</h4>
 

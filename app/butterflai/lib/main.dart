@@ -2,17 +2,20 @@
 
 import 'package:flutter/material.dart';
 
-import 'models/models_management.dart';
-import 'chatbot/chat_service.dart';
-import 'home_screen.dart';
+import 'models_management.dart';
+import 'http_service.dart';
+import 'screens/home_screen.dart';
 
 /// Método principal de la aplicación
 void main() async {
   // Inicialización de la aplicación
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Inicializa el servicio de chat
-  ChatService.getKey();
+  // Realiza la carga de la clave de la API
+  HttpService.getKey();
+
+  // Obtiene la información de las mariposas
+  HttpService.getButterflyInfo();
 
   // Carga los modelos
   await ButterflyModels.loadLabels();
