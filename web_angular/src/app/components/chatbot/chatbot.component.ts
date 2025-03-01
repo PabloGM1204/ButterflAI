@@ -40,7 +40,7 @@ export class ChatbotComponent {
   sendWelcomeMessage() {
     const welcomeMessage = {
       sender: 'bot',
-      text: "Hola, soy ButterflAI 🦋, tu asistente sobre mariposas favorito."
+      text: "Hello, I am ButterflAI 🦋, your favorite butterfly assistant."
     };
     this.messages.push(welcomeMessage);
     this.saveMessages(); // ✅ Guardar mensaje de bienvenida en el historial
@@ -57,7 +57,7 @@ export class ChatbotComponent {
     const requestBody = {
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: "Eres ButterflAI, un asistente experto en mariposas que responde preguntas de manera clara y útil." },
+        { role: "system", content: "You are ButterflAI, an expert assistant on butterflies who answers questions clearly and helpfully." },
         { role: "user", content: this.userInput }
       ],
       max_tokens: 300
@@ -89,7 +89,7 @@ export class ChatbotComponent {
   // 🔊 Función para convertir texto en voz
   speak(text: string) {
     const speech = new SpeechSynthesisUtterance(text);
-    speech.lang = 'es-ES';  // Idioma español
+    speech.lang = 'en-US';  // Idioma ingles
     speech.rate = 1;        // Velocidad normal
     speech.pitch = 1;       // Tono normal
     window.speechSynthesis.speak(speech);

@@ -8,10 +8,10 @@
       <!-- Tarjeta para el Top 5 Clasificaciones -->
       <ion-card *ngIf="classificationResults.length > 0">
         <ion-card-content>
-          <h3>🔍 Top 5 Clasificaciones:</h3>
+          <h3>🔍 Top 5 Clasifications:</h3>
           <ul>
             <li *ngFor="let result of classificationResults">
-              <strong>{{ result.class }}</strong> - Confianza: {{ result.confidence | percent }}
+              <strong>{{ result.class }}</strong> - Confidence: {{ result.confidence | percent }}
             </li>
           </ul>
         </ion-card-content>
@@ -21,21 +21,29 @@
       <ion-card *ngIf="mariposaClasificada && clasificacionResultado" class="butterfly-card">
         <ion-card-content>
           <h3>🦋 {{ mariposaClasificada["Nombre común"] }}</h3>
-
-          <p><strong>📜 Nombre Científico:</strong> {{ mariposaClasificada["Nombre científico"] }}</p>
-          <p><strong>📖 Descripción:</strong> {{ mariposaClasificada["Descripción"] }}</p>
-          <p><strong>🌍 Hábitat:</strong> {{ mariposaClasificada["Hábitat"] }}</p>
+      
+          <p><strong>📜 Scientific Name:</strong> {{ mariposaClasificada["Nombre científico"] }}</p>
+          <p><strong>📖 Description:</strong> {{ mariposaClasificada["Descripción"] }}</p>
+          <p><strong>🌍 Habitat:</strong> {{ mariposaClasificada["Hábitat"] }}</p>
+      
+          <!-- 🔄 Mostrar mensaje si los datos son generados por IA -->
           <p *ngIf="esGeneradoPorIA" class="info-ia">
-            ℹ️ Información generada con IA
+            ℹ️ Information generated with AI
           </p>
-
-          <!-- 🔄 Show message if info is being generated -->
+      
+          <!-- 🔄 Mostrar mensaje si la info está cargando -->
           <p *ngIf="cargandoInfo">
             ⏳ Generating information with AI...
           </p>
-
+      
+          <!-- 🎙️ Botón para leer la descripción -->
+          <ion-button expand="full" (click)="leerDescripcion()">
+            🎙️ Listen to Description
+          </ion-button>
+      
         </ion-card-content>
       </ion-card>
+      
 
     </div>
 

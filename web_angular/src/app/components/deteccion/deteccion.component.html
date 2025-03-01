@@ -1,5 +1,5 @@
 <ion-content class="ion-padding detection-container">
-  <h2 style="color: white;">Sube una imagen para detectar objetos</h2>
+  <h2 style="color: white;">Upload an image to detect butterflies</h2>
 
   <!-- Input para subir imágenes -->
   <input type="file" (change)="onFileSelected($event)" accept="image/*" class="upload-input" />
@@ -7,21 +7,21 @@
   <div class="image-row">
     <!-- Imagen seleccionada por el usuario -->
     <div class="image-container">
-      <h3>Imagen Original</h3>
+      <h3>Original Image</h3>
       <img *ngIf="imageUrl" [src]="imageUrl" class="preview" alt="Imagen original" />
     </div>
 
     <!-- Botón de detección y resultados -->
     <div class="center-container">
       <ion-button expand="block" color="primary" (click)="uploadImage()" [disabled]="!selectedFile">
-        Detectar Objetos
+        Detect Objects
       </ion-button>
 
       <!-- Mensaje de error si la API falla -->
       <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
 
       <div class="results-container" *ngIf="detectionAttempted">
-        <h3>Confianza</h3>
+        <h3>Confidence</h3>
       
         <ng-container *ngIf="detections.length > 0; else noDetections">
           <div *ngFor="let item of detections">
@@ -31,14 +31,14 @@
       
         <!-- Mostrar el mensaje solo si ya se ha intentado detectar algo -->
         <ng-template #noDetections>
-          <p *ngIf="detectionAttempted" style="color: red;">No se ha encontrado ninguna detección</p>
+          <p *ngIf="detectionAttempted" style="color: red;">No detections found</p>
         </ng-template>
       </div>
     </div>
 
     <!-- Imagen con detección -->
     <div class="image-container">
-      <h3>Detección</h3>
+      <h3>Detection</h3>
       <img *ngIf="detectionImageUrl" [src]="detectionImageUrl" class="preview" alt="Resultado de detección" />
     </div>
   </div>
