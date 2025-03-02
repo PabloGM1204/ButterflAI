@@ -1,44 +1,50 @@
 <img src="imgs_readme/logo_butterflai.jpg" alt="alt text" width="150"/>
 
 # ButterflAI
-TFM realizado por [Pablo García Muñoz]() y [Jairo Andrades Bueno]() en el **Master de Inteligencía Artificial y Big Data CPIFP Alan Turing**.
+TFM realizado por [Pablo García Muñoz](https://github.com/PabloGM1204) y [Jairo Andrades Bueno](https://github.com/jairopo) en el **Máster de Inteligencia Artificial y Big Data CPIFP Alan Turing**.
 
-[Pagina web](https://butterflai.netlify.app) | Aplicacion movil | Vídeo
+[Página web](https://butterflai.netlify.app) | Aplicacion móvil | [Vídeo](https://www.youtube.com/watch?v=6tQGDaMOLmQ&ab_channel=JairoAndradesBueno)
+
+# Autores
+
+* [Pablo García Muñoz](https://github.com/PabloGM1204) --> 60 %
+* [Jairo Andrades Bueno](https://github.com/jairopo) --> 40 %
 
 ## Justificación del proyecto
 
-Nostros dos siempre hemos querido hacer una aplicación de detección con uso a tiempo real para el TFM, inicialmente se nos ocurrio la idea de hacerlo sobre constelaciones ya que el resultado final podría quedar muy bien visualmente pero despues de probrar vimos que no era el enfoque perfecto para un TFM de este master, por ello seguimos con la idea de detección pero esta vez con **Mariposas** y así creamos **BUTTERFLAI** ya que es algo muy visual y comodo el poder usar una aplicación que ha tiempo real sea capaz de detectar la mariposa y te la classifique para decirte que tipo es y ademas darte información del tipo que ha clasificado.
+Nosotros dos siempre hemos querido hacer una aplicación de detección en tiempo real para el TFM, inicialmente se nos ocurrió la idea de hacerlo sobre constelaciones ya que el resultado final podría quedar muy bien visualmente pero después de probar vimos que no era el enfoque perfecto para un TFM de este master, por ello seguimos con la idea de detección pero esta vez con **mariposas** y así creamos **BUTTERFLAI** ya que es algo muy visual y cómodo el poder usar una aplicación que en tiempo real sea capaz de detectar la mariposa y te la clasifique para decirte que tipo es y además, darte información del tipo que ha clasificado.
 
 ## Índice
 
-1. Descripción del proyecto
-2. Obtención de datos
-3. Limpieza de datos
+1. [Descripción del proyecto](#1-descripción-del-proyecto)
+2. [Obtención de datos](#2-obtención-de-datos)
+3. [Limpieza de datos](#3-limpieza-de-datos)
 
-    3.1 Comprobación de los datos
+    3.1 [Comprobación de los datos](#31-comprobación-de-los-datos)
 
-    3.2 Eliminación de nulos
+    3.2 [Eliminación de los nulos](#32-eliminación-de-los-nulos)
 
-    3.3 Carga de imágenes
+    3.3 [Carga de imágenes](#33-carga-de-imágenes)
 
-    3.4 Creación de diccionario de labels
+    3.4 [Creación de diccionario de labels](#34-creación-de-diccionario-de-labels)
     
-    3.5 Descripción de los datos
+    3.5 [Descripción de los datos](#35-descripción-de-los-datos)
 
-    3.6 Scrapping
+    3.6 [Scrapping](#36-scrapping)
 
-4. Exploración y visualización de los datos
-5. Preparación de los datos para los algoritmos de *Machine Learning*
-6. Entrenamiento del modelo y comprobación del rendimiento
-7. Uso de *NPL*
-8. Web y Aplicación
-9. Conclusiones
+4. [Exploración y visualización de los datos](#4-exploración-y-visualización-de-los-datos)
+5. [Preparación de los datos para los algoritmos de *Machine Learning*](#5-preparación-de-los-datos-para-los-algoritmos-de-machine-learning)
+6. [Entrenamiento del modelo y comprobación del rendimiento](#6-entrenamiento-del-modelo-y-comprobación-del-rendimiento)
+7. [Uso de *NLP*](#7-uso-de-nlp)
+8. [Web y Aplicación](#8-web-y-aplicación)
+9. [Conclusiones](#9-conclusiones)
+10. [Bibliografía](#10-bibliografia)
 
 ## 1. Descripción del proyecto
 
-**ButterlfAI** es una aplicación de detección y clasificación de mariposas a tiempo real con la capacidad de detectar hasta 100 clases de mariposas distintas, la hemos desarrollado en dos vertiente una en pagina web y otra para dispositivos moviles. Las dos hacen uso de un chatbot especializado en mariposas para en el caso de tener alguna duda poder preguntarle.
+**ButterflAI** es una aplicación de detección y clasificación de mariposas a tiempo real con la capacidad de detectar hasta 100 clases de mariposas distintas, la hemos desarrollado en dos vertientes, una en página web y otra para dispositivos móviles. Ambas incluyen un chatbot especializado en mariposas, al cual se le puede hacer preguntas en caso de duda.
 
-* Para el diseño tanto de la aplicación movil como de la página web hemos usado figma: [Figma Web](https://www.figma.com/design/ppYnvwKn1cuR7QMSj7lIhE/Untitled?node-id=0-1&t=sqGsiv9wRIYfBdJS-1), [Figma App](https://www.figma.com/design/yZJnqPjqBbwB1zLa1cWf5o/ButterflAI_App?t=sqGsiv9wRIYfBdJS-1)
+* Para el diseño tanto de la aplicación móvil como de la página web hemos usado figma: [Figma Web](https://www.figma.com/design/ppYnvwKn1cuR7QMSj7lIhE/Untitled?node-id=0-1&t=sqGsiv9wRIYfBdJS-1), [Figma App](https://www.figma.com/design/yZJnqPjqBbwB1zLa1cWf5o/ButterflAI_App?t=sqGsiv9wRIYfBdJS-1)
 
 Estas son las tecnologías que hemos usado para desarrollar este proyecto:
 ![usos](imgs_readme/usos.png)
@@ -50,56 +56,56 @@ Explicación detallada desde abajo hasta arriba:
 
 * **Datos:**
     
-    Los datos han sido recogidos desde kaggle ya que había varios dataset con un gran cantidad de fotos que es lo que necesitamos para los dos modelos.
-    Para la información de las mariposas hemos hecho scraping a una web.
-    Estos tres dataset los juntamos en uno sumando las clases ya existente ya añadiendo las nuevas para poder subir el dataset bruto a S3 de AWS.
+    Los datos han sido recopilados desde Kaggle, ya que había varios datasets con una gran cantidad de fotos que es lo que necesitamos para los dos modelos.
+    Para obtener información sobre las mariposas, hemos realizado scraping en una web.
+    Estos tres dataset los juntamos en uno sumando las clases ya existentes y añadiendo las nuevas para poder subir el dataset bruto a S3 de AWS.
 
 * **ButterflAI Modelo:**
 
-    Para este TFM hemos usado dos modelos uno es de clasificación que está entrenado desde cero y otro de detección que ha sido creado haciendo *fine-tunning* al modelo de YOLOv8.
+    Para este TFM hemos utilizado dos modelos: uno de clasificación que está entrenado desde cero y otro de detección que ha sido creado haciendo *fine-tuning* al modelo de YOLOv8.
 
-    * Clasificación: este modelo lo hemos hecho desde cero usando **TensorFlow** ya que lo usariamos en movil por lo que nos iba a hacer falta convertirlo a **.tflite** para que así este optimizado para moviles.
+    * Clasificación: Este modelo lo hemos desarrollado desde cero usando **TensorFlow**, ya que lo usaríamos en móvil por lo que nos iba a hacer falta convertirlo a **.tflite** para que así este optimizado para móviles.
 
-    * Detección: este modelo ha sido creado desde el modelo de YOLO v8 al cual le hemos hecho **fine-tunning** y así poder detectar las mariposas en las imagenes. YOLO está creado en **Pytorch** por lo que mas adelante está explicado que hemos hecho para usarlo en las dos aplicaciones.
+    * Detección: Este modelo ha sido creado a partir de YOLOv8, al cual le hemos aplicado **fine-tuning** y así poder detectar las mariposas en las imagenes. YOLO está creado en **Pytorch** por lo que mas adelante está explicado que hemos hecho para usarlo en las dos aplicaciones.
 
 * **Página web:**
 
-    Para hacer uso de los dos modelos creamos una API en **HuggingFace Spaces** con un **Docker** y **FastAPI**, en esta API hay dos endpoints, una para cada modelo.
-    La página web está hosteada en **Netlifly**.
+    Para hacer uso de los dos modelos creamos una API en **HuggingFace Spaces** con un **Docker** y **FastAPI**, en esta API hay dos *endpoints*, una para cada modelo.
+    La página web está alojada en **Netlify**.
 
-* **Aplicación movil:**
+* **Aplicación móvil:**
 
-    Usa los dos modelos exportados a **.tflite** para así poder optimizar la aplicación ya que usa la camara a tiempo real y no hubiese sido posible conseguir un buen resultado usando una API. La aplicación esta desarrollada en **Flutter**.
+    Utiliza los dos modelos exportados a .tflite para optimizar la aplicación, ya que usa la cámara en tiempo real y no hubiese sido posible conseguir un buen resultado usando una API. La aplicación esta desarrollada en **Flutter**.
 
 * **ChatBot:**
 
-    Las dos aplicaciones tienen **ChatBot** el cual usa la API de **ChatGPT** y tiene *text2speech*.
+    Ambas aplicaciones incluyen un chatbot que utiliza la API de **ChatGPT** y cuenta con función de *text-to-speech*.
 
 ## 2. Obtención de datos
 
-Principalmente buscamos varios dataset que tuviesen lo mismo en comun que son fotos de mariposas, ya que pare el entrenamiento del detector solo necesitamos fotos de mariposas y fotos aleatorios (mas adelante explicamos esto) mientras que para el clasificador necesitamos fotos de mariposas en categorias.
+Principalmente buscamos varios datasets que tuviesen en común que fueran fotos de mariposas, ya que para el entrenamiento del detector solo necesitamos fotos de mariposas y fotos aleatorias (más adelante lo explicamos) mientras que para el clasificador necesitamos fotos de mariposas organizadas en categorías.
 
-* [butterfly-images40-species](https://www.kaggle.com/datasets/gpiosenka/butterfly-images40-species): Primer dataset utilizado principalmente ya que las imagenes estan clasificadas en carpetas (nombre en ingles) por cada tipo, en total hay 100 tipos entre ellos "MONARCH", "ADONIS", "APPOLLO", etc.
+* [butterfly-images40-species](https://www.kaggle.com/datasets/gpiosenka/butterfly-images40-species): Primer dataset utilizado principalmente, ya que las imágenes están clasificadas en carpetas (nombre en inglés) por cada tipo. En total, hay 100 tipos, entre ellos "MONARCH", "ADONIS", "APPOLLO", etc.
 
-* [butterfly-dataset](https://www.kaggle.com/datasets/veeralakrishna/butterfly-dataset): Segundo dataset utilizado para tener descripciones de las espcies pero de poco nos sirvio ya que solo tenia 10 tipos de mariposas.
+* [butterfly-dataset](https://www.kaggle.com/datasets/veeralakrishna/butterfly-dataset): Segundo dataset utilizado para obtener descripciones de las especies, pero de poco nos sirvió, ya que solo tenía 10 tipos de mariposas.
 
-* [butterfly-image-classification](https://www.kaggle.com/datasets/phucthaiv02/butterfly-image-classification): Tercer dataset que es como el primero ya que tiene unas 75 clases de mariposas y vienen catalogadas por tipo en un csv.
+* [butterfly-image-classification](https://www.kaggle.com/datasets/phucthaiv02/butterfly-image-classification): Tercer dataset, similar al primero, ya que tiene unas 75 clases de mariposas y están catalogadas por tipo en un archivo CSV.
 
-* [random-images](https://www.kaggle.com/datasets/ezzzio/random-images): Ultimo dataset utilizado para el detector de imagenes ya que haciendo el fine-tunning unicamente con imagenes de mariposas no era muy preciso, pero gracias a añadir imagenes sin mariposas (mas adelante explicado) fue capaz de mejorar la detección.
+* [random-images](https://www.kaggle.com/datasets/ezzzio/random-images): Último dataset utilizado para el detector de imágenes. Al realizar el fine-tuning únicamente con imágenes de mariposas, la precisión no era óptima, pero al añadir imágenes sin mariposas (explicado más adelante), se logró mejorar la detección.
 
-Para la información de cada mariposa lo que hemos hecho ha sido hacer scraping de esta web [butterfly-conservation](https://butterfly-conservation.org):
+Para obtener información sobre cada mariposa, hemos realizado scraping de esta web [butterfly-conservation](https://butterfly-conservation.org):
 
-* En esta [carpeta](scrapping/) esta todo sobre el scrapeo.
+* En está [carpeta](scrapping/) esta todo sobre el scraping.
 * Enlace de los archivos en S3 [mariposas.json](https://info-tmf-butterflai.s3.us-east-1.amazonaws.com/datos/mariposas.json), [polillas.json](https://info-tmf-butterflai.s3.us-east-1.amazonaws.com/datos/moths.json).
 
 
-Para tener una copia de los dataset en la nube por si se nos pierde y ademas de que no nos ocupe mucho espacio en los equipos usamos dos cuadernos **jupyter** para poder subir los dataset a AWS S3 usando las cuentas de *g.educaand*: 
-* [Cuaderno de subida](cuadernos/up_awsS3.ipynb)
-* [Cuaderno de descarga](cuadernos/down_awsS3.ipynb)
+Para contar con una copia de los datasets en la nube, en caso de pérdida, y para ahorrar espacio en los equipos, utilizamos dos cuadernos **Jupyter** para subirlos a AWS S3 mediante las cuentas de *g.educaand*.
+* [Cuaderno para la subida de datos](cuadernos/up_awsS3.ipynb)
+* [Cuaderno para la descarga de datos](cuadernos/down_awsS3.ipynb)
 
 ## 3. Limpieza de datos
 
-Para la limpieza de los datos de los datasets hemos divido el proceso en varias partes para que todo sea mas claro y sencillo de explicar y entender ademas de que estan hechos en cuadernos *jupyter*:
+Para la limpieza de los datos de los datasets, hemos dividido el proceso en varias partes para que todo sea más claro y sencillo de explicar y entender, además de que están hechos en cuadernos *Jupyter*:
 
 ### 3.1 Comprobación de los datos
 
@@ -149,7 +155,7 @@ Con esto confirmamos que hay 5 imágenes por cada especie tanto en el conjunto d
 
 ### 3.2 Eliminación de los nulos
 
-* En general las imagenes al estar en datasets de Kaggle suelen venir bien formateadas y no suelen ser nulas pero aun así hicimos esta función para comprobar los valores:
+* En general, las imágenes en los datasets de Kaggle suelen estar bien formateadas y no suelen ser nulas, pero aun así, creamos esta función para comprobar los valores:
 
 ```
 def verificar_imagenes(directorio):
@@ -200,7 +206,7 @@ if imagenes_invalidas:
 print("Verificación completada.")
 ```
 ### 3.3 Carga de imágenes
-* Creamos una nueva columna `image` en el dataset para guardar todas las imágenes como un array y las normalizamos entre 0 y 1, con un size **(224, 224)**.
+* Creamos una nueva columna `image` en el dataset para almacenar todas las imágenes como un array y las normalizamos entre 0 y 1, con un tamaño de **(224, 224)**.
 ```
 df['image'] = df['filepaths'].apply(lambda x: img_to_array(load_img(f"../{x}", target_size=(224, 224))) / 255)
 ```
@@ -230,7 +236,7 @@ df.head()
 | 0        | train/ADONIS/005.jpg     | ADONIS | train    | [[[0.61960787, 0.654902, 0.2901961], [0.619607... |
 
 ### 3.4 Creación de diccionario de labels
-* Como podemos ver, tenemos una columna `class id` y otra `labels`. Para eliminar esta última, creamos un diccionario que sea `{id: label}` que nos permite obtener el nombre meditante el número de la clase. 
+* Como podemos ver, tenemos una columna `class id` y otra `labels`. Para eliminar esta última, creamos un diccionario que sea `{id: label}` que nos permite obtener el nombre mediante el número de la clase. 
 ```
 dict_name = dict(zip( df['class id'], df['labels']))
 dict_name
@@ -262,7 +268,7 @@ dict_name
 
     5. **Image**: cada **imagen** representada como un **array** de tipo **flotante** **normalizada** en el rango **[0, 1]**
 
-* Como hemos comentado antes los datos importantes de los datasets son las imágenes pero para el caso del entrenamiento del modelo de **detección** necesitabamos los datos en formato **YOLO** que son las imagenes con las *labels* (etiquetas con la información de cada imagen como las cordenadas de la caja que delimita la mariposa). Por eso usamos **Roboflow** ya que no era eficiente hacer a mas de 1000 imagenes la caja delimitadora a mano y esta página con el plan gratuito nos permitio a 1000 imagenes y usando el modelo de deteccion de **Dino** poder crear un dataset con el formato **YOLO** que es el que necesitabamos.
+* Como mencionamos anteriormente, los datos más importantes de los datasets son las imágenes, pero para el entrenamiento del modelo de **detección** necesitábamos los datos en formato **YOLO** que son las imagenes con las *labels* (etiquetas con la información de cada imagen, como las coordenadas de la caja que delimita la mariposa). Por eso usamos **Roboflow** ya que no era eficiente hacer a mas de 1000 imagenes la caja delimitadora a mano y esta página con el plan gratuito nos permitio a 1000 imagenes y usando el modelo de deteccion de **Dino** poder crear un dataset con el formato **YOLO** que es el que necesitabamos.
     * [Link a nuestro dataset subido a **Roboflow**](https://universe.roboflow.com/butterflai/butterflies-detection-sfxwl/dataset/5)
 
 Ejemplo de un label creado por **Dino**:
@@ -280,8 +286,8 @@ Ejemplo de un label creado por **Dino**:
 
 ### 3.6 Scrapping
 
-Hemos hecho **scrapping** para poder conseguir información de las mariposas y polillas de está página web [butterfly-conservation](https://butterfly-conservation.org).
-Está página tiene muchos tipos de de mariposas y polillas en total unas 300 pero aun asi no estan todas las que nostros tenemos pero para aquellas que no estan se las pedimos a la api de chatGPT. Para hacer el scrapeo de tanto las mariposas como de las polillas hacemos todo de la misma manera solo vamos a explicar una la de las mariposas.
+Hemos hecho **scraping** para poder obtener información de las mariposas y polillas de esta página web [butterfly-conservation](https://butterfly-conservation.org).
+Esta página tiene muchos tipos de mariposas y polillas en total unas 300 pero aun así no estan todas las que nostros tenemos pero para aquellas que no estan se las pedimos a la api de chatGPT. Para hacer el scrapeo de tanto las mariposas como de las polillas hacemos todo de la misma manera solo vamos a explicar la de las mariposas.
 
 Para conseguir las urls de cada mariposa lo primero de todo hacemos un scrapeo general a la web donde estan todas las mariposas:
 
@@ -289,7 +295,7 @@ Para conseguir las urls de cada mariposa lo primero de todo hacemos un scrapeo g
 * [polillas.json](scrapping/urls_moths.json).
 
 
-* Lo primero de todo es configurar el **BeatufullSoup** que es con lo que haremos el scrapeo:
+* Lo primero de todo es configurar el **BeautifulSoup** que es con lo que haremos el scraping:
 ```
 def get_soup(url):
     response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
@@ -299,7 +305,7 @@ def get_soup(url):
         print(f"Error al acceder a {url} - Código: {response.status_code}")
         return None
 ```
-* Con esta función conseguimos todos las url.
+* Con esta función conseguimos todos las url:
 ```
 def get_all_butterfly_links():
     butterfly_links = []
@@ -348,7 +354,7 @@ with open("urls_mariposas.json", "r", encoding="utf-8") as f:
     butterfly_urls = json.load(f)
 ```
 
-* Con esta función sacamos la información que buscamos como la **Descripción**, **Hábitat**, etc:
+* Con esta función extraemos la información que buscamos, como la **Descripción**, **Hábitat**, etc:
 ```
 def extract_butterfly_info(url):
     soup = get_soup(url)
@@ -404,13 +410,13 @@ def extract_butterfly_info(url):
     }
 ```
 
-* Igual que con las urls, los datos lo guardamos tambien en un **.json**:
+* Igual que con las URLs, los datos lo guardamos también en un **.json**:
 ```
 with open("mariposas.json", "w", encoding="utf-8") as f:
     json.dump(butterfly_data, f, ensure_ascii=False, indent=4)
 ```
 
-* Quedarían estos dos **.json** con toda la información scrapeada:
+* Quedarían estos dos **.json** con toda la información obtenida mediante scraping:
 
     * [mariposas.json](scrapping/mariposas.json)
     * [moths.json](scrapping/moths.json)
@@ -464,7 +470,7 @@ Ejemplo de información de una mariposa:
     },
 ```
 
-Como contamos con **100 especies** disintas, al tener dicha cantidad en los datos de entrenamiento podemos intuir que hay distinto cantidad de fotos por clase. Por tanto, mostramos un **gráfico de barras** para visualizar cuántas imágenes tiene cada una.
+Como contamos con **100 especies** distintas, al tener dicha cantidad en los datos de entrenamiento podemos intuir que hay una cantidad distinta de fotos por clase. Por tanto, mostramos un **gráfico de barras** para visualizar cuántas imágenes tiene cada una.
 
 <img src="imgs_readme/bar_imagenes_por_especie.png" alt="alt text" width="500"/>
 
@@ -474,14 +480,14 @@ Este gráfico nos indica indirectamente que no hay ninguna clase sin fotos. Por 
 
 ## 5. Preparación de los datos para los algoritmos de *Machine Learning*
 
-En esta parte ya que hemos hecho dos modelos vamos a explicar por separado cada modelo para hacerlo mas facil de entender:
+En esta parte ya que hemos hecho dos modelos vamos a explicar por separado cada modelo para hacerlo más fácil de entender:
 
 ### 5.1 Modelo de Detección
 
-Para el modelo de detección como comentamos anteriormente los unicos datos que necesitamos son los labels **.txt** y las fotos **.jpg** ademas de que todas las imagenes deben tener el mismo tamaño 640x640, para conseguir ese formato usamos [**Roboflow**](https://universe.roboflow.com/butterflai/butterflies-detection-sfxwl/dataset/5) y así conseguimos el formato de YOLO que es el que necesitamos para hacer fine-tunning al modelo de YOLO v8.
-Los demas datos que venian incialmente en el dataset de *butterfly-images40-species* no nos son necesarios para el modelo de deteccion por lo que lo eliminamos.
+Para el modelo de detección como comentamos anteriormente los únicos datos que necesitamos son los labels **.txt** y las fotos **.jpg** además de que todas las imágenes deben tener el mismo tamaño 640x640, para conseguir ese formato usamos [**Roboflow**](https://universe.roboflow.com/butterflai/butterflies-detection-sfxwl/dataset/5) y así conseguimos el formato de YOLO que es el que necesitamos para hacer fine-tuning al modelo de YOLO v8.
+Los demás datos que venían inicialmente en el dataset de *butterfly-images40-species* no nos son necesarios para el modelo de detección por lo que los eliminamos.
 
-Tambien para llegar a conseguir un buen resultado y que el modelo de detección no globalice todo como una mariposa tenemos que darle imagenes que no sean de mariposas y por ello no tengan un *label*, para ello cogimos las 200 primeras imagenes del dataset de [random_img](detector/datasets_original/random_img/dataset/), estas imagenes vienen en distintos tamaños y necesitabamos estandarizarlas todas al mismo tamaño lo primero de todo:
+También para llegar a conseguir un buen resultado y que el modelo de detección no clasifique erróneamente todo como una mariposa tenemos que darle imágenes que no sean de mariposas y por ello no tengan un *label*, para ello cogimos las 200 primeras imagenes del dataset de [random_img](detector/datasets_original/random_img/dataset/). Estas imágenes vienen en distintos tamaños y necesitábamos estandarizarlas todas al mismo tamaño, lo primero de todo:
 ```
 def load_images_from_folder(folder, num_images):
     # Lista para almacenar las imágenes
@@ -525,9 +531,9 @@ input_folder = "random_img/dataset/train"
 output_folder = "random_img/editados"
 process_images(input_folder, output_folder, num_images=200, size=(640, 640))
 ```
-Para asi poder guardar las imagenes en la carpeta [random_img](detector/datasets_original/random_img/editados/).
+Para así poder guardar las imágenes en la carpeta [random_img](detector/datasets_original/random_img/editados/).
 
-Ya tenemos todas las imagenes que necesitabamos para el entrenamiento, ahora solo hay que unirlas todas bajo las mismas carpetas creando una estructura de carpetas tal que así:
+Ya tenemos todas las imágenes que necesitábamos para el entrenamiento, ahora solo hay que unirlas todas bajo las mismas carpetas creando una estructura de carpetas tal que así:
 ```
 dataset/
 │── train/
@@ -540,7 +546,7 @@ dataset/
 │
 │── data.yaml      # Archivo de configuración del dataset
 ```
-Esta estructura de carpetas es esta [carpeta](detector/dataset_final/), ademas de la estructura como se ve en el gráfico tambien se necesita un **data.yaml** que es el archivo de configuración del dataset para que a la hora de hacer el *fine-tunning* sea capaz de saber donde estas las imagenes y su *label*:
+Esta estructura de carpetas es esta [carpeta](detector/dataset_final/). Además de la estructura como se ve en el gráfico también se necesita un **data.yaml** que es el archivo de configuración del dataset para que a la hora de hacer el *fine-tuning* sea capaz de saber donde estas las imagenes y su *label*:
 ```
 path: D:/TFM/Codigo/dataset_final
 train: ../train/images
@@ -548,14 +554,14 @@ val: ../valid/images
 nc: 1
 names: ['butterfly']
 ```
-Vemos que son los rutas tanto de las imagenes como de los *labels*, se sabe que una imagen le pertenece un *label* por el nombre ya que tienen el mismo nombre el modelo entiend que le pertenece a esa imagen, tambien estan los siguientes datos:
+Vemos que son las rutas tanto de las imágenes como de los *labels*, se sabe que una imagen le pertenece un *label* por el nombre ya que tienen el mismo nombre el modelo entiend que le pertenece a esa imagen, tambien estan los siguientes datos:
 * ```path: D:/TFM/Codigo/dataset_final``` -> ruta absoluta de donde esta la carpeta del dataset.
 * ```train: ../train/images``` -> ubicación de los datos de entrenamiento.
 * ```val: ../valid/images``` -> ubicación de los datos de validación.
 * ```nc: 1``` -> significa que solo hay una clase en este dataset en nuestro caso es **butterfly**.
 * ```names: ['butterfly']``` -> es aqui donde decimos el nombre de las clases, como pusimos que solo habia una pues aqui solo hay un nombre.
 
-Para la divison de datos entre entrenamiento y validación hemos seguido el estandar del **20%** de los datos para que sean de validación.
+Para la división de datos entre entrenamiento y validación hemos seguido el estándar del **20%** de los datos para que sean de validación.
 
 > **En total de este dataset juntando las _200_ imágenes del _random_img_ más las _1000_ que tenemos en formato YOLO v8 de las mariposas, todo estandarizado al mismo tamaño 640x640, conseguimos un dataset de unas _1200_ imágenes con unas _1000_ etiquetas correspondientes a las imágenes que tienen mariposas.**
 
@@ -674,19 +680,19 @@ X_train.dtype, y_train.dtype, X_valid.dtype, y_valid.dtype, X_test.dtype, y_test
 
 ## 6. Entrenamiento del modelo y comprobación del rendimiento
 
-Igual que en el apartado anterior, dividimos la explicación en dos partes para así poder explicarlo todo mas claro y conciso:
+Al igual que en el apartado anterior, dividimos la explicación en dos partes para así poder explicarlo todo más claro y conciso de entender:
 
 ### 6.1 Modelo de Detección
 
-Al usar el modelo ya creado de YOLO v8 que es capaz de detectar 80 tipos de clases pero ninguna de ellas es la de mariposa de ahi que vayamos a hacerle *fine-tunning*, para ello lo que hicimos fue **reentrenar** con el dataset que comentamos antes que está en formato YOLO v8, al ser un modelo de YOLO está hecho con **PyTorch**.
+Al usar el modelo preentrenado de YOLO v8 que es capaz de detectar 80 tipos de clases pero ninguna de ellas es la de mariposa de ahí que vayamos a realizar *fine-tuning*, para ello lo que hicimos fue **reentrenar** con el dataset que comentamos antes que está en formato YOLO v8, al ser un modelo de YOLO está hecho con **PyTorch**.
 
 <h4 style="text-decoration: underline;">Entrenamiento del modelo</h4>
 
 * [Cuaderno de entrenamiento](detector/modelo_deteccion.ipynb)
 
-1. **Preparación del entorno**: Para que este entrenmaiento no tarde mucho necesitabamos usar la gráfica de nuestro ordenador personal:
+1. **Preparación del entorno**: Para que este entrenamiento no tarde mucho necesitábamos usar la GPU de nuestro ordenador personal:
 * Instalación de **Cuda** ya que nosotros tenemos gráfica envidia usaremos Cuda.
-* Veríficamos si coge la gráfica (cuda es la GPU).
+* Veríficamos si detecta la gráfica (CUDA es la GPU).
     ```
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     print(f"Usando el dispositivo: {device}")
@@ -749,7 +755,7 @@ model.train(
 
 * Por defecto el optimizador que usa este modelo es el de **Adam**.
 
-Una vez termianado nos crea una [carpeta](detector/butterfly_detection/yolov8_butterfly/) donde esta todos los gráficos, matriz de confusión, ect, que nos serviara para poder ver los datos de como ha ido el entrenamiento:
+Una vez terminado, se genera una [carpeta](detector/butterfly_detection/yolov8_butterfly/) donde están todos los gráficos, matriz de confusión, etc, que nos servirán para poder ver los datos de como ha ido el entrenamiento:
 
 <h4 style="text-decoration: underline;">Muestra la evolución de la precisión del modelo.<h4>
 
@@ -765,11 +771,11 @@ Una vez termianado nos crea una [carpeta](detector/butterfly_detection/yolov8_bu
 
 <h4 style="text-decoration: underline;">Ejemplo de Batch de Entrenamiento<h4>
 
-Estas son imagenes que se han usado a la hora del entrenamiento:
+Estas son imágenes que se han usado a la hora del entrenamiento:
 
 <img src="detector/butterfly_detection/yolov8_butterfly/train_batch0.jpg" alt="Train Batch 0" width="500"/>
 
-Estas son imagenes con las que se ha probado el modelo con el *fine-tunning* ya hecho:
+Estas son imágenes con las que se ha probado el modelo con el *fine-tuning* ya hecho:
 
 <img src="detector/butterfly_detection/yolov8_butterfly/val_batch0_pred.jpg" alt="Val Batch 0 Pred" width="500"/>
 
@@ -963,23 +969,23 @@ print(report)
 | **weighted avg**         | **0.97**  | **0.96** | **0.96** | 500   |
 
 
-## 7. Uso de *NPL*
+## 7. Uso de *NLP*
 
-En cuanto al NPL hemos decidio hacer dos cosas ya que una nos parecia poca:
+En cuanto al NLP hemos decidido hacer dos cosas ya que una nos parecía insuficiente:
 
-* **Chatbot**: es un chatbot que usa la API de chatGPT proporcionada por los profesores en clase, mas el prompt para que siempre se mantegan en cosas de mariposas y no desvarie es el siguiente.
+* **Chatbot**: Se trata de un chatbot que usa la API de ChatGPT proporcionada por los profesores en clase. Además el prompt para que siempre se mantegan en cosas de mariposas y no desvarie es el siguiente.
 
 ```Eres ButterflAI, un asistente experto en mariposas que responde preguntas de manera clara y útil.```
 
-* *Text to speech*: usando los mensajes que nos devuelve el chatbot le damos voz.
+* *Text-to-speech*: convertimos en voz los mensajes generados por el chatbot.
 
-Hemos hecho dos chatbots uno para la página web y otro para el movil:
+Hemos desarrollado dos chatbots uno para la página web y otro para el móvil:
 
 <h4 style="text-decoration: underline;">Web</h4>
 
 <img src="imgs_readme/web_img/chat_.png" alt="alt text" height="350"/>
 
-* Para la web añadimos el *text to speech* es decir para que lea el mensaje del bot en voz alta y asi añadirle un extra al *NPL*, esta es la función que usamos en la web:
+* Para la web añadimos el *text-to-speech* es decir para que lea el mensaje del bot en voz alta y así mejorar la experiencia de usuario y complementar el uso del *NLP*, esta es la función que usamos en la web:
 ```
 // Función para convertir texto en voz
 speak(text: string) {
@@ -991,43 +997,43 @@ speak(text: string) {
 }
 ```
 
-<h4 style="text-decoration: underline;">Movil</h4>
+<h4 style="text-decoration: underline;">Móvil</h4>
 
-<img src="imgs_readme/chatbot_app.jpg" alt="alt text" height="350"/>
+<img src="imgs_readme/app_img/chatbot.jpg" alt="alt text" height="350"/>
 
 ## 8. Web y Aplicación
 
-Como hemos comentado hemos tanto una página web como una aplicación movil:
+Como hemos comentado, hemos desarrollado tanto una página web como una aplicación móvil:
 
 ### Página Web
 
 * [Link](https://butterflai.netlify.app)
 
-La página web esta desarrollada en **Angular** con **Ionic**, hosteada en **Netlify** y usando la API de **Hugging Face** que es donde esta subido los modelos tanto el de clasificación como el de detección, ya que al desarrollarlo con estas tecnología no se podía subir en el mismo proyecto como lo hace streamlit.
+La página web está desarrollada en **Angular** con **Ionic**, alojada en **Netlify** y usando la API de **Hugging Face** que es donde estan alojados los modelos tanto el de clasificación como el de detección, ya que al desarrollarlo con estas tecnología no fue posible subirlos en el mismo proyecto como se haría en Streamlit..
 
 * [Link a la API de hugging face](https://huggingface.co/spaces/pablogm-1204/TFM-Mariposas/tree/main)
 
 <h4 style="text-decoration: underline;">Interfaz</h4>
 
-Decidimos hacerlo de una forma sencilla pero moderna, usando colores faciles de ver y entender para que sea todo intuitivo y atractivo a la misma vez.
+Decidimos diseñarla de una forma sencilla pero moderna, usando colores fáciles de distinguir para que sea todo intuitivo y atractivo al mismo tiempo.
 
-Al entrar en la página nos encontramos con el titulo de la página, nuestros nombre y el boton de descarga del APK. Abajo a la derecha esta el boton del **Chatbot**.
+Al entrar en la página nos encontramos con el título de la página, nuestros nombres y el botón de descarga del APK. Abajo a la derecha esta el botón del **Chatbot**.
 
 <img src="imgs_readme/web_img/inicio.png" alt="alt text" height="350"/>
 
-Asi es como se ve el **Chatbot**:
+Así es como se ve el **Chatbot**:
 
 <img src="imgs_readme/web_img/chat.png" alt="alt text" height="350"/>
 
-Si deslizamos hacia abajo veremos donde podemos subir una imagen para que el detector encuentre la mariposa en la imagen y el clasificador nos diga que mariposa es:
+Si deslizamos hacia abajo, veremos donde podemos subir una imagen para que el detector encuentre la mariposa en la imagen y el clasificador nos diga que mariposa es:
 
 <img src="imgs_readme/web_img/class.png" alt="alt text" height="350"/>
 
-Cuando le pasamos la imgen hace la petición a la API y nos devuelve el cuadrado de donde ha detectado la mariposa.
+Cuando le pasamos la imagen hace la petición a la API y nos devuelve el cuadrado de donde ha detectado la mariposa.
 
 <img src="imgs_readme/web_img/class2.png" alt="alt text" height="350"/>
 
-En el caso de que no haya detectado saldría asi:
+En el caso de que no haya detectado saldría así:
 
 <img src="imgs_readme/web_img/class3.png" alt="alt text" height="350"/>
 
@@ -1035,18 +1041,23 @@ Automaticamente una vez se detecta la imagen de la mariposa nos dice que tipo cr
 
 <img src="imgs_readme/web_img/tipo.png" alt="alt text" height="350"/>
 
+Tambien nos da información de la mariposa:
+
+<img src="imgs_readme/web_img/info.png" alt="alt text" height="350"/>
+
+
 En la parte baja del todo estamos los creadores con nuestros links tanto a **GitHub** como a **Linkedin**:
 
 <img src="imgs_readme/web_img/link.png" alt="alt text" height="350"/>
 
 **Resultado final de la web**
 
-![Descripción del GIF](imgs_readme/web_img/web.gif)
+![Descripción del GIF](imgs_readme/web_img/web_en.gif)
 
 
 ### Aplicación Móvil
 
-A parte de la página web, contamos con una aplicación desarrollada en **Flutter** 
+Además de la página web, contamos con una aplicación desarrollada en **Flutter** 
 para dispositivos Android.
 
 <h4 style="text-decoration: underline;">Interfaz</h4>
@@ -1087,13 +1098,13 @@ También muestra **información** sobre la especie predicha:
 Por último, accedemos a la **detección en tiempo real** mediante el botón del inicio.
 Nos aparecerá la **cámara trasera** con la que deberemos apuntar a la **mariposa**.
 
-Cuando se **detecte** alguna, se mostrará un **cuadro rojo** sobre esta y, en la **caja negrq** en la parte inferior, saldrá la **especie** predicha junto con su **confianza**.
+Cuando se **detecte** alguna, se mostrará un **cuadro rojo** sobre esta y, en la **caja negra** en la parte inferior, saldrá la **especie** predicha junto con su **confianza**.
 
 <img src="imgs_readme/app_img/real-time.jpg" alt="alt text" height="350"/>
 
 <h4 style="text-decoration: underline;">¿Cómo me descargo la app?</h4>
 
-Para poder utilizar la aplicación, **únicamente** se necesita el **APK** que se encuentra en la **página web**. Para descargarlo, hay que pulsar el botón que dice "Descargar APK".
+Para poder utilizar la aplicación, **únicamente** se necesita el **APK** que se encuentra en la **página web**. Para descargarlo, hay que pulsar el botón que dice "Download APK".
 
 <img src="imgs_readme/app_img/descarga_apk.jpg" alt="alt text" height="350"/>
 
@@ -1115,7 +1126,7 @@ La aplicación no se ha diseñado con **ningún fin malicioso**, sino para **fac
 Al abrirla por primera vez se solicitarán los permisos de **cámara** y **micrófono** para usar la detección en tiempo real, además de poder acceder a los archivos de tu móvil en caso de querer seleccionar una foto de la galería.
 
 
-<h4 style="text-decoration: underline;">¿Qué pasos debo seguir una vez me desargue el APK?</h4>
+<h4 style="text-decoration: underline;">¿Qué pasos debo seguir una vez me descargue el APK?</h4>
 
 Depende del dispositivo pueden variar un poco los pasos. 
 
@@ -1129,10 +1140,20 @@ Depende del dispositivo pueden variar un poco los pasos.
 
 <img src="imgs_readme/logo_butterflai.jpg" alt="alt text" width="150"/>
 
+## 10. Bibliografía
+
+- [Figma](https://www.figma.com/)
+- [Iconos](https://iconduck.com/)
+- [YOLO fine-tuning](https://medium.com/@yongsun.yoon/fine-tuning-yolov8-using-custom-dataset-generated-by-open-world-object-detector-5724e267645d)
+- [Fine-tuning](https://www.youtube.com/watch?v=_YbEna8UNcU)
+- [Detección de objetos](https://www.youtube.com/watch?v=QCXCbbi5w-k)
+- [Información](https://butterfly-conservation.org)
+- [Datasets](https://www.kaggle.com/)
+
 ## 9. Conclusiones
 
-En este proyecto hemos implementado **dos modelos** de inteligencia artificial: un **detector** de mariposas y un **clasificador** de especies basado en imágenes. Además, hemos integrado un **chatbot** *GPT-4o-mini* especializado en mariposas y polillas, permitiendo a los usuarios resolver dudas o descubrir datos curiosos en cualquier momento. 
+En este proyecto, hemos desarrollado e implementado **dos modelos** de inteligencia artificial: un **detector** de mariposas y un **clasificador** de especies basado en imágenes. Además, hemos integrado un **chatbot** *GPT-4o-mini* especializado en mariposas y polillas, permitiendo a los usuarios resolver dudas o descubrir datos curiosos en cualquier momento. 
 
-Para facilitar su uso, hemos creado una **web** intuitiva con *Angular*, donde los usuarios pueden** subir una fotografía** para identificar una mariposa y conocer su especie. También hemos desarrollado una **aplicación móvil** para *Android* con *Flutter*, que permite la **detección** de mariposas en **tiempo real**. En ambas plataformas, el **chatbot** está integrado.
+Para facilitar su uso, hemos creado una **web** intuitiva con *Angular*, donde los usuarios pueden **subir una fotografía** para identificar una mariposa y conocer su especie. También hemos desarrollado una **aplicación móvil** para *Android* con *Flutter*, que permite la **detección** de mariposas en **tiempo real**. En ambas plataformas, el **chatbot** está integrado.
 
 Por todo esto, *ButterflAI* es una **herramienta valiosa** tanto para apasionados de los lepidópteros como para quienes dan sus primeros pasos en el fascinante mundo de las mariposas.
