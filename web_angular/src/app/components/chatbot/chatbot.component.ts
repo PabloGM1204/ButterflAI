@@ -57,7 +57,7 @@ export class ChatbotComponent {
     const requestBody = {
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: "You are ButterflAI, an expert assistant on butterflies who answers questions clearly and helpfully." },
+        { role: "system", content: "You are ButterflAI, an expert butterfly assistant that answers questions clearly and helpfully, you can only answer questions about butterflies and moths, all in English." },
         { role: "user", content: this.userInput }
       ],
       max_tokens: 300
