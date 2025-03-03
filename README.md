@@ -47,7 +47,7 @@ Nosotros dos siempre hemos querido hacer una aplicación de detección en tiempo
 * Para el diseño tanto de la aplicación móvil como de la página web hemos usado figma: [Figma Web](https://www.figma.com/design/ppYnvwKn1cuR7QMSj7lIhE/Untitled?node-id=0-1&t=sqGsiv9wRIYfBdJS-1), [Figma App](https://www.figma.com/design/yZJnqPjqBbwB1zLa1cWf5o/ButterflAI_App?t=sqGsiv9wRIYfBdJS-1)
 
 Estas son las tecnologías que hemos usado para desarrollar este proyecto:
-![usos](imgs_readme/usos.png)
+![usos](imgs_readme/usos_completo.png)
 
 ### Diagrama del proyecto
 ![diagrama](imgs_readme/diagrama.png)
