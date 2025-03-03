@@ -478,6 +478,9 @@ Si no fijamos, la especie que cuenta con **más imágenes** es la *MOURNING CLOA
 
 Este gráfico nos indica indirectamente que no hay ninguna clase sin fotos. Por el contrario, todas tienen al menos 100 imágenes.
 
+[power_bi](imgs_readme/power_bi.png)
+[Archivo Power BI](imgs_readme/datos.pbix)
+
 ## 5. Preparación de los datos para los algoritmos de *Machine Learning*
 
 En esta parte ya que hemos hecho dos modelos vamos a explicar por separado cada modelo para hacerlo más fácil de entender:
