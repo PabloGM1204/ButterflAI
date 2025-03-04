@@ -24,7 +24,7 @@ export class HomePage {
 
   onSendToClassifier(image: File) {
     console.log('Recibida imagen para clasificar:', image.name);
-    this.imageToClassify = image; // ✅ Guardamos la imagen para enviarla al clasificador
+    this.imageToClassify = image; // Guardamos la imagen para enviarla al clasificador
   }
 
   onClassificationReceived(result: any) {
@@ -32,9 +32,9 @@ export class HomePage {
     this.classificationResult = result;
   }
 
-  isChatOpen = false; // ✅ Controla si el chatbot está visible
+  isChatOpen = false; // Controla si el chatbot está visible
 
   toggleChat() {
-    this.isChatOpen = !this.isChatOpen; // ✅ Cambia el estado del chat al hacer clic
+    this.isChatOpen = !this.isChatOpen; // Cambia el estado del chat al hacer clic
   }
 }

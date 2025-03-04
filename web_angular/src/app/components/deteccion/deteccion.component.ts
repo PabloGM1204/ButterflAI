@@ -18,8 +18,8 @@ export class DeteccionComponent {
   detectionAttempted = false;
   errorMessage: string | null = null;
 
-  @Output() detectionsFound = new EventEmitter<any[]>(); // ✅ Emitimos detecciones
-  @Output() sendToClassifier = new EventEmitter<File>(); // ✅ Emitimos imagen a clasificador
+  @Output() detectionsFound = new EventEmitter<any[]>(); // Emitimos detecciones
+  @Output() sendToClassifier = new EventEmitter<File>(); // Emitimos imagen a clasificador
 
   apiUrl = 'https://pablogm-1204-tfm-mariposas.hf.space/predict';
 
@@ -52,27 +52,27 @@ export class DeteccionComponent {
 
     this.http.post(this.apiUrl, formData, {
       headers: {
-        'Accept': 'application/json', // ✅ Aseguramos que el backend acepte JSON
+        'Accept': 'application/json', // Aseguramos que el backend acepte JSON
       }
     }).subscribe(
       (response: any) => {
         console.log('Respuesta de la API:', response);
         this.detections = Array.isArray(response.detections) ? response.detections : [];
-        this.detectionsFound.emit(this.detections); // ✅ Emitimos detecciones
-        this.detectionImageUrl = null; // 🔹 Limpiar la imagen anterior
+        this.detectionsFound.emit(this.detections); // Emitimos detecciones
+        this.detectionImageUrl = null; // Limpiar la imagen anterior
         this.detectionAttempted = true;
 
 
-        // 🔹 Verificar si hay una mariposa en la detección
+        // Verificar si hay una mariposa en la detección
         if (this.detections.length > 0) {
-          // 🔹 Verificar si hay una mariposa en la detección
+          // Verificar si hay una mariposa en la detección
           const mariposaDetectada = this.detections.some(det => det.class.toLowerCase() === 'butterfly');
           console.log("ASDASODASUDASDHASDASDASDASD")
           if (mariposaDetectada) {
             console.log('¡Mariposa detectada! Enviando al clasificador...');
-            this.drawBoundingBoxes(); // ✅ Dibujar recuadros en la imagen
+            this.drawBoundingBoxes(); // Dibujar recuadros en la imagen
             if (this.selectedFile)
-              this.sendToClassifier.emit(this.selectedFile); // ✅ Enviar la imagen al clasificador
+              this.sendToClassifier.emit(this.selectedFile); // Enviar la imagen al clasificador
           }
         }
       },
@@ -108,7 +108,7 @@ export class DeteccionComponent {
         ctx!.fillText(`${det.class} (${(det.confidence * 100).toFixed(2)}%)`, x1, y1 - 5);
       });
 
-      // ✅ Actualizar la URL de la imagen final después de dibujar
+      // Actualizar la URL de la imagen final después de dibujar
       this.detectionImageUrl = canvas.toDataURL();
     };
   }

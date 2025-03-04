@@ -17,7 +17,7 @@
         </ion-card-content>
       </ion-card>
 
-      <!-- 🦋 Tarjeta con la información de la mariposa clasificada -->
+      <!-- Tarjeta con la información de la mariposa clasificada -->
       <ion-card *ngIf="mariposaClasificada && clasificacionResultado" class="butterfly-card">
         <ion-card-content>
           <h3>🦋 {{ mariposaClasificada["Nombre común"] }}</h3>
@@ -26,12 +26,12 @@
           <p><strong>📖 Description:</strong> {{ mariposaClasificada["Descripción"] }}</p>
           <p><strong>🌍 Habitat:</strong> {{ mariposaClasificada["Hábitat"] }}</p>
       
-          <!-- 🔄 Mostrar mensaje si los datos son generados por IA -->
+          <!-- Mostrar mensaje si los datos son generados por IA -->
           <p *ngIf="mariposaClasificada['IA']" class="info-ia">
             <strong>Information generated with AI</strong>
           </p>
       
-          <!-- 🔄 Mostrar mensaje si la info está cargando -->
+          <!-- Mostrar mensaje si la info está cargando -->
           <p *ngIf="cargandoInfo">
             ⏳ Generating information with AI...
           </p>

@@ -1,6 +1,6 @@
 ion-content {
   --background: transparent;
-  //height: 100vh; /* Para asegurar que ocupe toda la pantalla */
+  //height: 100vh;
 }
 
 .classification-container {
@@ -10,13 +10,13 @@ ion-content {
   
 .image-row {
   display: flex;
-  justify-content: center; /* ✅ Centra el contenido */
+  justify-content: center;
   align-items: center;
   margin: 1rem 0;
 }
 
 .empty-container {
-  width: 20%; /* ✅ Reducimos el tamaño del espacio vacío */
+  width: 20%;
   text-align: center;
   background-color: transparent;
   padding: 1rem;
@@ -27,7 +27,7 @@ ion-content {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 60%; /* ✅ Damos más espacio al contenido principal */
+  width: 60%;
 }
   
 ion-card {

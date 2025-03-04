@@ -13,15 +13,15 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./chatbot.component.scss']
 })
 export class ChatbotComponent {
-  messages: { sender: string, text: string }[] = []; // ✅ Almacena los mensajes del chat
-  userInput: string = ''; // ✅ Almacena el mensaje del usuario
-  isLoading = false; // ✅ Para mostrar "Cargando..." mientras responde el bot
+  messages: { sender: string, text: string }[] = []; // Almacena los mensajes del chat
+  userInput: string = ''; // Almacena el mensaje del usuario
+  isLoading = false; // Para mostrar "Cargando..." mientras responde el bot
 
-  apiUrl = 'https://api.openai.com/v1/chat/completions'; // ✅ Endpoint de OpenAI
-  apiKey = environment.apiKey; // 🔹 REEMPLAZA con tu clave de OpenAI
+  apiUrl = 'https://api.openai.com/v1/chat/completions'; // Endpoint de OpenAI
+  apiKey = environment.apiKey;
 
   constructor(private http: HttpClient) {
-    this.loadMessages(); // ✅ Cargar mensajes guardados al iniciar
+    this.loadMessages(); // Cargar mensajes guardados al iniciar
   }
 
   loadMessages() {
@@ -29,7 +29,7 @@ export class ChatbotComponent {
     if (savedMessages) {
       this.messages = JSON.parse(savedMessages);
     } else {
-      this.sendWelcomeMessage(); // ✅ Si no hay historial, mostrar mensaje de bienvenida
+      this.sendWelcomeMessage(); // Si no hay historial, mostrar mensaje de bienvenida
     }
   }
 
@@ -43,7 +43,7 @@ export class ChatbotComponent {
       text: "Hello, I am ButterflAI 🦋, your favorite butterfly assistant."
     };
     this.messages.push(welcomeMessage);
-    this.saveMessages(); // ✅ Guardar mensaje de bienvenida en el historial
+    this.saveMessages(); // Guardar mensaje de bienvenida en el historial
   }
 
   sendMessage() {
@@ -51,7 +51,7 @@ export class ChatbotComponent {
 
     const userMessage = { sender: 'user', text: this.userInput };
     this.messages.push(userMessage);
-    this.saveMessages(); // ✅ Guardar historial después de enviar mensaje
+    this.saveMessages(); // Guardar historial después de enviar mensaje
     this.isLoading = true;
 
     const requestBody = {
@@ -72,7 +72,7 @@ export class ChatbotComponent {
       (response: any) => {
         const botMessage = { sender: 'bot', text: response.choices[0].message.content };
         this.messages.push(botMessage);
-        this.saveMessages(); // ✅ Guardar historial después de recibir respuesta
+        this.saveMessages(); // Guardar historial después de recibir respuesta
         this.isLoading = false;
 
         this.speak(botMessage.text);
@@ -86,7 +86,7 @@ export class ChatbotComponent {
     this.userInput = ''; // Limpiar input después de enviar el mensaje
   }
 
-  // 🔊 Función para convertir texto en voz
+  // Función para convertir texto en voz
   speak(text: string) {
     const speech = new SpeechSynthesisUtterance(text);
     speech.lang = 'en-US';  // Idioma ingles
