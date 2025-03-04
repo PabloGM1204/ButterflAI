@@ -7,8 +7,8 @@ TFM realizado por [Pablo García Muñoz](https://github.com/PabloGM1204) y [Jair
 
 # Autores
 
-* [Pablo García Muñoz](https://github.com/PabloGM1204) --> 60 %
-* [Jairo Andrades Bueno](https://github.com/jairopo) --> 40 %
+* [Pablo García Muñoz](https://github.com/PabloGM1204) --> 55 %
+* [Jairo Andrades Bueno](https://github.com/jairopo) --> 45 %
 
 ## Justificación del proyecto
 
